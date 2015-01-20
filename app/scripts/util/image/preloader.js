@@ -8,7 +8,7 @@ var PRE_LOADER = {
                 if (++com >= length) {
                     callback(loader);
                 }
-            }
+            };
             tm.src = images[src];
         }
     }

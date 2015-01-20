@@ -37,6 +37,12 @@ var run = run || {};
     proto.constructor = NewClass;
 
     NewClass.prototype = proto;
+    NewClass.prototype.__super__ = parentProto;
+
+    if(!parentProto.initialize){
+      NewClass.prototype.__super__.initialize = function(){};
+    }
+
 
     //inherit parent's statics
     for (var i in this) {
