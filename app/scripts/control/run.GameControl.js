@@ -1,5 +1,7 @@
 var run = run || {};
 run.GameControl = (function () {
+  'use strict';
+
   var GameControl, images, Hero, privateFn;
 
   privateFn = {
@@ -26,8 +28,6 @@ run.GameControl = (function () {
       PRE_LOADER.preload(srcImages, privateFn.preloadCom.bind(this));
     }
   });
-
-
 
   return GameControl;
 })();

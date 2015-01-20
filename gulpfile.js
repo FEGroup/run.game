@@ -2,6 +2,7 @@
 'use strict';
 // generated on 2015-01-14 using generator-gulp-webapp 0.2.0
 var gulp = require('gulp');
+var open = require('gulp-open');
 var $ = require('gulp-load-plugins')();
 
 gulp.task('styles', function () {
@@ -116,9 +117,17 @@ gulp.task('watch', ['connect'], function () {
 
   gulp.watch('app/styles/**/*.scss', ['styles']);
   gulp.watch('bower.json', ['wiredep']);
+
+  gulp.start('open');
 });
 
-gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras'], function () {
+gulp.task('open', function(){
+  gulp.src('./dist/index.html')
+      .pipe(open('', {app : 'Google Chrome', 'url' : 'http://localhost:9000'}));
+});
+
+//'jshint',
+gulp.task('build', [ 'html', 'images', 'fonts', 'extras'], function () {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 

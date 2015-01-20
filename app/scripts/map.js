@@ -1,3 +1,3 @@
 var srcImages = {
-    hero:"img/hero.png"
+    hero: 'img/hero.png'
 };
