@@ -16,6 +16,10 @@ var run = run || {};
       ctx.moveTo(0, 0);
       ctx.lineTo(300, 150);
       ctx.stroke();
+    },
+
+    getContext : function(){
+      return this.ctx;
     }
   });
 

@@ -7,6 +7,7 @@ var run = run || {};
     var ctx = el.getContext('2d');
 
     this.stage = new run.Stage(ctx);
+    this.gameControl = new run.GameControl(this.stage);
   };
 
   run.init('_stage');

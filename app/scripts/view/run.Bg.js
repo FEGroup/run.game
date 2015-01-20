@@ -1,17 +1,17 @@
 /**
  * Created by Naver on 2015-01-19.
  */
-var RUNGAME = RUNGAME || {};
+var run = run || {};
 
-RUNGAME.bg = (function () {
+run.Bg = (function () {
   'use strict';
-  var bg, fn, mode, image, x, y;
+  var Bg, fn, mode, image, x, y;
 
   function draw() {
 
   }
 
-  fn = (bg = function (imageSrc) {
+  fn = (Bg = function (imageSrc) {
     image = imageSrc;
   }).prototype;
 
@@ -35,5 +35,5 @@ RUNGAME.bg = (function () {
   }
 
 
-  return bg;
+  return Bg;
 })();

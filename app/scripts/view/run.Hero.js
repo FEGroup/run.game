@@ -1,16 +1,16 @@
-var RUNGAME = RUNGAME || {};
+var run = run || {};
 
-RUNGAME.hero = (function () {
+run.Hero = (function () {
 
   'use strict';
-  var hero, fn, mode, image, sequence, x, y;
+  var Hero, fn, mode, image, sequence, x, y;
 
   function draw() {
     //temporary image create
 
   }
 
-  fn = (hero = function (imageSrc, sequenceSrc) {
+  fn = (Hero = function (imageSrc, sequenceSrc) {
     image = imageSrc;
     sequence = sequenceSrc;
   }).prototype;
@@ -40,5 +40,5 @@ RUNGAME.hero = (function () {
   };
 
 
-  return hero;
+  return Hero;
 })();
