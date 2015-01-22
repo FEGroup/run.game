@@ -1,25 +1,29 @@
 var run = run || {};
-(function(){
+(function () {
   'use strict';
 
   run.Stage = run.Class.extend({
 
-    initialize : function(ctx){
+    initialize: function (ctx) {
       this.ctx = ctx;
-      this.drawLine();
+      //this.drawLine();
     },
 
-    drawLine : function(){
-      var ctx = this.ctx;
+    //drawLine : function(){
+    //  var ctx = this.ctx;
+    //
+    //  ctx.beginPath();
+    //  ctx.moveTo(0, 0);
+    //  ctx.lineTo(300, 150);
+    //  ctx.stroke();
+    //},
 
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.lineTo(300, 150);
-      ctx.stroke();
-    },
-
-    getContext : function(){
+    getContext: function () {
       return this.ctx;
+    },
+
+    clearContext: function () {
+      this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     }
   });
 
