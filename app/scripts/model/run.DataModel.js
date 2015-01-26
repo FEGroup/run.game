@@ -4,6 +4,11 @@
 var run = run || {};
 
 run.DataModel = (function(){
-  var DataModel, fn;
+
+  return run.Class.extend({
+    initialize : function(){
+
+    }
+  });
 
 })();

@@ -14,5 +14,9 @@
   "undef": true,
   "unused": true,
   "strict": false,
-  "jquery": true
+  "jquery": true,
+  "globals" : {
+    "run" : true,
+    "console" : true
+  }
 }

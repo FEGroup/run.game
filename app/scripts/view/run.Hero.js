@@ -1,22 +1,25 @@
-var run = run || {};
-
 run.Hero = (function () {
-
   'use strict';
-  var Hero;
 
-  Hero = run.Class.extend({
+  return run.Class.extend({
+    MODE: {
+      D_MODE: 'default',
+      R_MODE: 'run',
+      J_MODE: 'jump'
+    },
+
+    /**
+     * @constructor
+     * @param ctx
+     * @param name
+     */
     initialize: function (ctx, name) {
       this._x = this._y = 0;
       this._ctx = ctx;
       this._name = name;
       this._currentFrame = 0;
     },
-    MODE: {
-      D_MODE: "default",
-      R_MODE: "run",
-      J_MODE: "jump"
-    },
+
     _draw: function () {
       //temporary image create
       var src = run.Sources[this._name];
@@ -25,13 +28,14 @@ run.Hero = (function () {
         src.frames[this._currentFrame][0], src.frames[this._currentFrame][1], src.frames[this._currentFrame][2], src.frames[this._currentFrame][3],
         this._x, this._y, src.frames[this._currentFrame][2], src.frames[this._currentFrame][3]);
     },
+
     update: function () {
       this._draw();
       this._currentFrame++;
 
-      if (this._currentFrame >= run.Sources[this._name].frames.length)
+      if(this._currentFrame >= run.Sources[this._name].frames.length){
         this._currentFrame = 0;
-
+      }
     },
 
     setPoint: function (lx, ly) {
@@ -46,7 +50,5 @@ run.Hero = (function () {
     getSrcName: function () {
       return this._name;
     }
-
   });
-  return Hero;
 })();
