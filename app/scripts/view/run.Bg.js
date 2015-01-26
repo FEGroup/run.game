@@ -1,29 +1,29 @@
 run.Bg = (function () {
-  'use strict';
+    'use strict';
 
-  return run.Class.extend({
+    return run.Class.extend({
 
-    initialize: function (stage) {
-      this._stage = stage;
+        initialize: function (stage) {
+            this._stage = stage;
 
-    },
+        },
 
-    draw : function(){
+        draw: function () {
 
-    },
+        },
 
-    update : function(){
-      this.draw();
-    },
+        update: function () {
+            this.draw();
+        },
 
-    setPoint : function(x, y){
-      this.x = x;
-      this.y = y;
-    },
+        setPoint: function (x, y) {
+            this.x = x;
+            this.y = y;
+        },
 
-    setMode : function(mode){
-      this.mode = mode;
-    }
-  });
+        setMode: function (mode) {
+            this.mode = mode;
+        }
+    });
 
 })();

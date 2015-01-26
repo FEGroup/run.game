@@ -12,6 +12,7 @@ run.GameControl = (function () {
       this.initHero();
       this.addKeyEvents();
       this.startTime = 0;
+      this.isJumping = false;
 
       this.startAnimation();
     },
@@ -32,9 +33,25 @@ run.GameControl = (function () {
 
     tick : function(){
       var updateStack = this.updateStack;
+      var i;
 
-      if(this.startTime == 0){
-        for (var i = 0; i < updateStack.length; i++) {
+      var gravity = 1.2;
+      var characterGround = 20;
+
+      if (this.isJumping) {
+        this.yVel += gravity;
+        this._oHero._y += this.yVel;
+
+        if (this._oHero._y > characterGround) {
+          this._oHero._y = characterGround;
+          this.yVel = 0;
+          this.isJumping = false;
+        }
+
+      }
+
+      if(this.startTime === 0){
+        for (i = 0; i < updateStack.length; i++) {
           updateStack[i].initFrame();
         }
 
@@ -42,33 +59,42 @@ run.GameControl = (function () {
       }
 
       // 프레임(this._frame)에 따른 tick시점 수정 필요
-      var frame_duration = 1000 / this.FPS;
+      var frameDuration = 1000 / this.FPS;
       var now = (new Date()).getTime();
-      var elapsed_time = now - this.startTime;
-      var visible_frame = Math.floor(elapsed_time / frame_duration);
+      var elapsedTime = now - this.startTime;
+      var visibleTime = Math.floor(elapsedTime / frameDuration);
 
-
-      if (visible_frame > frames.length) {
+      if (visibleTime > frames.length) {
         // we're past the end of the animation and we're not looping.
         // stop the animation.
         //this.startTime = 0;
       }
 
+
+
       this._stage.clearContext();
-      for (var i = 0; i < updateStack.length; i++) {
+      for (i = 0; i < updateStack.length; i++) {
         if (updateStack[i].update && typeof updateStack[i].update === 'function') {
-          updateStack[i].update(visible_frame);
+          updateStack[i].update(visibleTime);
         }
       }
 
 
-      if (this.startTime != 0) {
+      if (this.startTime !== 0) {
         requestAnimationFrame(this.tick.bind(this));
       }
     },
 
     addKeyEvents : function () {
-      this._stage.getContext().canvas.addEventListener('keydown', $.proxy(this.keyDownHandler, this));
+      $(window).on('keydown', $.proxy(this.keyDownHandler, this));
+    },
+
+    jump : function(){
+      if (this.isJumping == false) {
+        this.yVel = -15;
+        this.isJumping = true;
+      }
+      console.log('ss')
     },
 
     keyDownHandler : function (e) {
@@ -77,6 +103,10 @@ run.GameControl = (function () {
       var delta = 10;
 
       switch(e.keyCode){
+
+        case 32 :
+          this.jump();
+              break;
         // left
         case 37 :
           this._oHero._x-= delta;
