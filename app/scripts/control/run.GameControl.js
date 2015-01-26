@@ -14,6 +14,8 @@ run.GameControl = (function () {
       this.startTime = 0;
       this.isJumping = false;
 
+      this.xVel = 5;
+
       this.startAnimation();
     },
 
@@ -31,12 +33,24 @@ run.GameControl = (function () {
       requestAnimationFrame(this.tick.bind(this));
     },
 
-    tick : function(){
-      var updateStack = this.updateStack;
-      var i;
-
+    controlHero: function () {
       var gravity = 1.2;
       var characterGround = 20;
+      var characterWidth = 30;
+
+      if (this.moveLeft) {
+        this._oHero._x -= this.xVel;
+        if (this._oHero._scaleX > 0) {
+          this._oHero._scaleX *= -1;
+          this._oHero._x += characterWidth;
+        }
+      } else if (this.moveRight) {
+        this._oHero._x += this.xVel;
+        if (this._oHero._scaleX < 0) {
+          this._oHero._scaleX *= -1;
+          this._oHero._x -= characterWidth;
+        }
+      }
 
       if (this.isJumping) {
         this.yVel += gravity;
@@ -49,6 +63,13 @@ run.GameControl = (function () {
         }
 
       }
+    },
+
+    tick : function(){
+      var updateStack = this.updateStack;
+      var i;
+
+      this.controlHero();
 
       if(this.startTime === 0){
         for (i = 0; i < updateStack.length; i++) {
@@ -86,46 +107,48 @@ run.GameControl = (function () {
     },
 
     addKeyEvents : function () {
-      $(window).on('keydown', $.proxy(this.keyDownHandler, this));
+
+      $(window)
+          .on('keydown', $.proxy(this.keyDownHandler, this))
+          .on('keyup', $.proxy(this.keyUpHandler, this));
     },
 
     jump : function(){
-      if (this.isJumping == false) {
+      if (this.isJumping === false) {
         this.yVel = -15;
         this.isJumping = true;
       }
-      console.log('ss')
     },
 
     keyDownHandler : function (e) {
       e.preventDefault();
 
-      var delta = 10;
-
       switch(e.keyCode){
-
-        case 32 :
+        case 32 :// jump
           this.jump();
-              break;
-        // left
+          break;
+        case 37 :// left
+          this.moveLeft = true;
+          break;
+        case 38 :// up
+          break;
+        case 39 :// right
+          this.moveRight = true;
+          break;
+        case 40 :// down
+          break;
+      }
+    },
+
+    keyUpHandler : function(e){
+      switch(e.keyCode) {
         case 37 :
-          this._oHero._x-= delta;
-        break;
-
-        // up
-        case 38 :
-          this._oHero._y-= delta;
-        break;
-
+          this.moveLeft = false;
+          break;
         // right
         case 39 :
-          this._oHero._x+= delta;
-        break;
-
-        // down
-        case 40 :
-          this._oHero._y+= delta;
-        break;
+          this.moveRight = false;
+          break;
       }
     }
   });
