@@ -3,18 +3,21 @@ run.GameControl = (function () {
 
   var GameControl = run.Class.extend({
 
+    FPS : 15,
+
     initialize : function(stage){
       this._stage = stage;
       this.updateStack = [];
 
       this.initHero();
       this.addKeyEvents();
+      this.startTime = 0;
 
       this.startAnimation();
     },
 
     startAnimation: function () {
-      window.requestAnimationFrame(this.animation.bind(this));
+      this.animate();
     },
 
     initHero: function () {
@@ -22,16 +25,46 @@ run.GameControl = (function () {
       this.updateStack.push(this._oHero);
     },
 
-    animation : function(){
-      // 프레임(this._frame)에 따른 tick시점 수정 필요
+    animate : function(){
+      this.startTime = (new Date()).getTime();
+      requestAnimationFrame(this.tick.bind(this));
+    },
+
+    tick : function(){
       var updateStack = this.updateStack;
+
+      if(this.startTime == 0){
+        for (var i = 0; i < updateStack.length; i++) {
+          updateStack[i].initFrame();
+        }
+
+        return;
+      }
+
+      // 프레임(this._frame)에 따른 tick시점 수정 필요
+      var frame_duration = 1000 / this.FPS;
+      var now = (new Date()).getTime();
+      var elapsed_time = now - this.startTime;
+      var visible_frame = Math.floor(elapsed_time / frame_duration);
+
+
+      if (visible_frame > frames.length) {
+        // we're past the end of the animation and we're not looping.
+        // stop the animation.
+        //this.startTime = 0;
+      }
+
       this._stage.clearContext();
       for (var i = 0; i < updateStack.length; i++) {
         if (updateStack[i].update && typeof updateStack[i].update === 'function') {
-          updateStack[i].update();
+          updateStack[i].update(visible_frame);
         }
       }
-      window.requestAnimationFrame(this.animation.bind(this));
+
+
+      if (this.startTime != 0) {
+        requestAnimationFrame(this.tick.bind(this));
+      }
     },
 
     addKeyEvents : function () {

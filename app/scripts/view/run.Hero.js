@@ -30,9 +30,18 @@ run.Hero = (function () {
         this._x, this._y, src.frames[this._currentFrame][2], src.frames[this._currentFrame][3]);
     },
 
-    update: function () {
+    initFrame : function(){
+      this._currentFrame = 0;
+    },
+
+    update: function (nFrame) {
       this._draw();
-      this._currentFrame++;
+
+      if(nFrame){
+        this._currentFrame = nFrame % run.Sources[this._name].frames.length;
+      } else {
+        this._currentFrame++;
+      }
 
       if(this._currentFrame >= run.Sources[this._name].frames.length){
         this._currentFrame = 0;
