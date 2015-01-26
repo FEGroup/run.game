@@ -25,9 +25,16 @@
     };
 
     var NewClass = function () {
+      if(this.defaults){
+        for(var prop in this.defaults){
+          this[prop] = this.defaults[prop];
+        }
+      }
+
       if (this.initialize) {
         this.initialize.apply(this, arguments);
       }
+
     };
 
     var parentProto = NewClass.__super__ = this.prototype;

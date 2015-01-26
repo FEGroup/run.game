@@ -3,19 +3,22 @@ run.GameControl = (function () {
 
   var GameControl = run.Class.extend({
 
-    FPS : 15,
+    defaults : {
+      FPS : 15,
+      startTime : 0,
+      xVel : 5,
+      yVel : 0,
+      isJumping : false,
+      moveLeft : false,
+      moveRight : false,
+      updateStack : []
+    },
 
     initialize : function(stage){
       this._stage = stage;
-      this.updateStack = [];
 
       this.initHero();
       this.addKeyEvents();
-      this.startTime = 0;
-      this.isJumping = false;
-
-      this.xVel = 5;
-
       this.startAnimation();
     },
 
@@ -26,6 +29,9 @@ run.GameControl = (function () {
     initHero: function () {
       this._oHero = new run.Hero(this._stage.getContext(), 'hero');
       this.updateStack.push(this._oHero);
+
+      this._oBg = new run.Bg(this._stage.getContext(), 'bg');
+      this.updateStack.push(this._oBg);
     },
 
     animate : function(){
@@ -39,25 +45,25 @@ run.GameControl = (function () {
       var characterWidth = 30;
 
       if (this.moveLeft) {
-        this._oHero._x -= this.xVel;
+        this._oHero.x -= this.xVel;
         if (this._oHero._scaleX > 0) {
           this._oHero._scaleX *= -1;
-          this._oHero._x += characterWidth;
+          this._oHero.x += characterWidth;
         }
       } else if (this.moveRight) {
-        this._oHero._x += this.xVel;
+        this._oHero.x += this.xVel;
         if (this._oHero._scaleX < 0) {
           this._oHero._scaleX *= -1;
-          this._oHero._x -= characterWidth;
+          this._oHero.x -= characterWidth;
         }
       }
 
       if (this.isJumping) {
         this.yVel += gravity;
-        this._oHero._y += this.yVel;
+        this._oHero.y += this.yVel;
 
-        if (this._oHero._y > characterGround) {
-          this._oHero._y = characterGround;
+        if (this._oHero.y > characterGround) {
+          this._oHero.y = characterGround;
           this.yVel = 0;
           this.isJumping = false;
         }
@@ -90,8 +96,6 @@ run.GameControl = (function () {
         // stop the animation.
         //this.startTime = 0;
       }
-
-
 
       this._stage.clearContext();
       for (i = 0; i < updateStack.length; i++) {

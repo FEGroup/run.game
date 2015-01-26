@@ -8,17 +8,22 @@ run.Hero = (function () {
             J_MODE: 'jump'
         },
 
+        defaults : {
+            x : 0,
+            y : 0,
+            _currentFrame : 0,
+            _name : '',
+            _ctx : null
+        },
+
         /**
          * @constructor
          * @param ctx
          * @param name
          */
         initialize: function (ctx, name) {
-            this._x = 0;
-            this._y = 0;
             this._ctx = ctx;
             this._name = name;
-            this._currentFrame = 0;
         },
 
         _draw: function () {
@@ -27,7 +32,7 @@ run.Hero = (function () {
 
             this._ctx.drawImage(src.imageObj,
                 src.frames[this._currentFrame][0], src.frames[this._currentFrame][1], src.frames[this._currentFrame][2], src.frames[this._currentFrame][3],
-                this._x, this._y, src.frames[this._currentFrame][2], src.frames[this._currentFrame][3]);
+                this.x, this.y, src.frames[this._currentFrame][2], src.frames[this._currentFrame][3]);
         },
 
         initFrame: function () {
@@ -49,8 +54,8 @@ run.Hero = (function () {
         },
 
         setPoint: function (lx, ly) {
-            this._x = lx;
-            this._y = ly;
+            this.x = lx;
+            this.y = ly;
         },
 
         setMode: function (m) {
