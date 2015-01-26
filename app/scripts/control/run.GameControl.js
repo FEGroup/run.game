@@ -62,8 +62,8 @@ run.GameControl = (function () {
         this.yVel += gravity;
         this._oHero.y += this.yVel;
 
-        if (this._oHero.y > characterGround) {
-          this._oHero.y = characterGround;
+        if (this._oHero._y > characterGround) {
+          this._oHero._y = characterGround;
           this.yVel = 0;
           this.isJumping = false;
         }
@@ -154,21 +154,22 @@ run.GameControl = (function () {
           this.moveRight = false;
           break;
       }
+    },
+
+    changeDepth : function (obj1, obj2) {
+      var updateStack = this.updateStack;
+
+      var index1 = updateStack.indexOf(obj1), index2 = updateStack.indexOf(obj2), tm1, tm2;
+      if (index1 < 0 || index2 < 0){
+        return;
+      }
+
+      tm1 = updateStack[index1];
+      tm2 = updateStack[index2];
+      updateStack[index2] = tm1;
+      updateStack[index1] = tm2;
     }
   });
-
-  GameControl.changeDepth = function (updateStack, obj1, obj2) {
-    var index1 = updateStack.indexOf(obj1), index2 = updateStack.indexOf(obj2), tm1, tm2;
-    if (index1 < 0 || index2 < 0){
-      return;
-    }
-
-
-    tm1 = updateStack[index1];
-    tm2 = updateStack[index2];
-    updateStack[index2] = tm1;
-    updateStack[index1] = tm2;
-  };
 
   return GameControl;
 })();
