@@ -14,7 +14,8 @@ run.Hero = (function () {
      * @param name
      */
     initialize: function (ctx, name) {
-      this._x = this._y = 0;
+      this._x = 0;
+      this._y = 0;
       this._ctx = ctx;
       this._name = name;
       this._currentFrame = 0;

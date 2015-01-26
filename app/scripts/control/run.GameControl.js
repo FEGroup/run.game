@@ -18,7 +18,8 @@ run.GameControl = (function () {
     },
 
     initHero: function () {
-      this.updateStack.push(new run.Hero(this._stage.getContext(), 'hero'));
+      this._oHero = new run.Hero(this._stage.getContext(), 'hero');
+      this.updateStack.push(this._oHero);
     },
 
     animation : function(){
@@ -31,16 +32,38 @@ run.GameControl = (function () {
         }
       }
       window.requestAnimationFrame(this.animation.bind(this));
-
     },
 
     addKeyEvents : function () {
-      this._stage.getContext().canvas.addEventListener('keydown', this.keyDownHandler);
+      this._stage.getContext().canvas.addEventListener('keydown', $.proxy(this.keyDownHandler, this));
     },
 
     keyDownHandler : function (e) {
       e.preventDefault();
-      console.log(e.keyCode);
+
+      var delta = 10;
+
+      switch(e.keyCode){
+        // left
+        case 37 :
+          this._oHero._x-= delta;
+        break;
+
+        // up
+        case 38 :
+          this._oHero._y-= delta;
+        break;
+
+        // right
+        case 39 :
+          this._oHero._x+= delta;
+        break;
+
+        // down
+        case 40 :
+          this._oHero._y+= delta;
+        break;
+      }
     }
   });
 
