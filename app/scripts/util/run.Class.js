@@ -1,4 +1,3 @@
-var run = run || {};
 (function(){
   'use strict';
 
@@ -72,5 +71,4 @@ var run = run || {};
 
     return NewClass;
   };
-
 })();

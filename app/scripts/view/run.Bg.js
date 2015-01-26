@@ -1,39 +1,29 @@
-/**
- * Created by Naver on 2015-01-19.
- */
-var run = run || {};
-
 run.Bg = (function () {
   'use strict';
-  var Bg, fn, mode, image, x, y;
 
-  function draw() {
+  return run.Class.extend({
 
-  }
+    initialize: function (stage) {
+      this._stage = stage;
 
-  fn = (Bg = function (imageSrc) {
-    image = imageSrc;
-  }).prototype;
+    },
 
-  fn.MODE = {
-    D_MODE: "default",
-    R_MODE: "run",
-    J_MODE: "jump"
-  };
+    draw : function(){
 
-  fn.update = function () {
-    draw.apply(this);
-  };
+    },
 
-  fn.setPoint = function(lx, ly) {
-    x = lx;
-    y = ly;
-  };
+    update : function(){
+      this.draw();
+    },
 
-  fn.setMode = function(m){
-    mode = m;
-  }
+    setPoint : function(x, y){
+      this.x = x;
+      this.y = y;
+    },
 
+    setMode : function(mode){
+      this.mode = mode;
+    }
+  });
 
-  return Bg;
 })();

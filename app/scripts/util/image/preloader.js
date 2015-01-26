@@ -1,18 +1,25 @@
-var PRE_LOADER = {
+run.PRE_LOADER = {
   preload: function (images, callback) {
-    var loader = {}, src, length = 0, com = 0, tm;
+    var resources = {},
+        src,
+        length = 0,
+        com = 0,
+        img;
+
+    var onLoad = function (e) {
+      images[src].imageObj = e.currentTarget;
+      if (++com >= length) {
+        callback(resources);
+      }
+    };
+
     for (src in images) {
       length++;
-      loader[src] = {};
-      tm = loader[src].imageObj = new Image();
-      console.log(tm);
-      tm.onload = function (e) {
-        images[src].imageObj = e.currentTarget;
-        if (++com >= length) {
-          callback(loader);
-        }
-      };
-      tm.src = images[src].img;
+      resources[src] = {};
+      img = resources[src].imageObj = new Image();
+
+      img.onload = onLoad;
+      img.src = images[src].img;
     }
   }
 };
