@@ -59,8 +59,8 @@ run.GameControl = (function () {
         this.yVel += gravity;
         this._oHero.y += this.yVel;
 
-        if (this._oHero._y > characterGround) {
-          this._oHero._y = characterGround;
+        if (this._oHero.y > characterGround) {
+          this._oHero.y = characterGround;
           this.yVel = 0;
           this.isJumping = false;
         }
