@@ -21,7 +21,10 @@
     var ctx = el.getContext('2d');
 
     var oStage = new run.Stage(ctx);
-    new run.GameControl(oStage);
+    var config = new run.Config();
+    var oModel = new run.MainModel(config);
+
+    new run.GameControl(oStage, oModel);
   };
 
   run.loadResources(function(){

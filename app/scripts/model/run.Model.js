@@ -3,9 +3,9 @@
  */
 var run = run || {};
 
-run.DataModel = (function(){
+run.Model = (function(){
 
-  return run.Class.extend({
+  return EventDispatcher.extend({
     initialize : function(){
 
     }

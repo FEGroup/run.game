@@ -3,34 +3,30 @@ run.GameControl = (function () {
 
   var GameControl = run.Class.extend({
 
-    FPS : 15,
-
-    initialize : function(stage){
+    initialize : function(stage, model){
       this._stage = stage;
       this.updateStack = [];
 
       this.initHero();
       this.addKeyEvents();
-      this.startTime = 0;
       this.isJumping = false;
 
       this.xVel = 5;
 
-      this.startAnimation();
+
+      this._model = model;
+      this._model.addEventListener('enterframe', this.tick.bind(this));
+      this._config = this._model.getConfig();
+        this.startAnimation();
     },
 
     startAnimation: function () {
-      this.animate();
+      this._model.animate();
     },
 
     initHero: function () {
       this._oHero = new run.Hero(this._stage.getContext(), 'hero');
       this.updateStack.push(this._oHero);
-    },
-
-    animate : function(){
-      this.startTime = (new Date()).getTime();
-      requestAnimationFrame(this.tick.bind(this));
     },
 
     controlHero: function () {
@@ -65,44 +61,24 @@ run.GameControl = (function () {
       }
     },
 
-    tick : function(){
+    tick : function(e){
       var updateStack = this.updateStack;
       var i;
 
       this.controlHero();
 
-      if(this.startTime === 0){
+      if(this._model.startTime === 0){
         for (i = 0; i < updateStack.length; i++) {
           updateStack[i].initFrame();
         }
-
         return;
       }
-
-      // 프레임(this._frame)에 따른 tick시점 수정 필요
-      var frameDuration = 1000 / this.FPS;
-      var now = (new Date()).getTime();
-      var elapsedTime = now - this.startTime;
-      var visibleTime = Math.floor(elapsedTime / frameDuration);
-
-      if (visibleTime > frames.length) {
-        // we're past the end of the animation and we're not looping.
-        // stop the animation.
-        //this.startTime = 0;
-      }
-
-
 
       this._stage.clearContext();
       for (i = 0; i < updateStack.length; i++) {
         if (updateStack[i].update && typeof updateStack[i].update === 'function') {
-          updateStack[i].update(visibleTime);
+          updateStack[i].update();
         }
-      }
-
-
-      if (this.startTime !== 0) {
-        requestAnimationFrame(this.tick.bind(this));
       }
     },
 

@@ -16,10 +16,12 @@ var EventDispatcher = EventDispatcher || {};
       this.eventListenerObj = {};
     },
     addEventListener: function (type, callback) {
-      if (typeof type === 'string' || typeof callback !== 'function'){
+      if (typeof type !== 'string' || typeof callback !== 'function'){
         return;
       }
-
+      this.eventListenerObj = this.eventListenerObj || {};
+      console.log(this.eventListenerObj);
+      console.log(this.eventListenerObj[type]);
       this.eventListenerObj[type] = this.eventListenerObj[type] || [];
       this.eventListenerObj[type].push(callback);
     },
@@ -49,7 +51,6 @@ var EventDispatcher = EventDispatcher || {};
       if (!this.eventListenerObj[type] || this.eventListenerObj[type].length === 0){
         return false;
       }
-
       return true;
     }
   });
