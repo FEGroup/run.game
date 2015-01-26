@@ -13,14 +13,14 @@ run.GameControl = (function () {
       updateStack : []
     },
     initialize : function(stage, model){
-
-
-    initialize : function(stage){
       this._stage = stage;
       this.updateStack = [];
 
       this.initHero();
       this.addKeyEvents();
+
+      this._model = model;
+      this._model.addEventListener('enterframe', this.tick.bind(this));
       this.startAnimation();
     },
 
