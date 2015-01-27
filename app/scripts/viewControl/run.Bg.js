@@ -2,12 +2,12 @@ run.Bg = (function () {
     'use strict';
 
     return run.Class.extend({
-        defaults : {
-            x : 0,
-            y : 0,
-            _name : 'hero',
-            _currentFrame : 0,
-            _ctx : null
+        defaults: {
+            x: 0,
+            y: 0,
+            _name: 'hero',
+            _currentFrame: 0,
+            _ctx: null
         },
 
         initialize: function (ctx) {
