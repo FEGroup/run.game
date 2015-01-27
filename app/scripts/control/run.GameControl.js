@@ -24,11 +24,9 @@ run.GameControl = (function () {
     },
 
     initHero: function () {
-      this._oHero = new run.Hero(this._stage.getContext(), 'hero');
+      this._oHero = new run.Hero(this._stage.getContext(), new run.HeroModel());
       this.updateStack.push(this._oHero);
-
     },
-
 
 
     tick : function(){
