@@ -4,9 +4,9 @@
   var Config = run.Class.extend({
 
     defaults : {
-      FPS : 15,
-      GRAVITY : 1.2,
-      JUMP_ACC : -15
+      FPS : 30,
+      GRAVITY : 5,
+      INIT_JUMP_VELOCITY : -30
     },
 
     get : function(prop){

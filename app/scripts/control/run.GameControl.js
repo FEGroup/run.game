@@ -4,11 +4,6 @@ run.GameControl = (function () {
   return run.Class.extend({
     defaults : {
       startTime : 0,
-      xVel : 5,
-      yVel : 0,
-      isJumping : false,
-      moveLeft : false,
-      moveRight : false,
       updateStack : []
     },
 
@@ -20,12 +15,12 @@ run.GameControl = (function () {
       this.addKeyEvents();
 
       this._model = model;
-      this._model.addEventListener('enterframe', this.tick.bind(this));
+      this._stage.addEventListener('enterframe', this.tick.bind(this));
       this.startAnimation();
     },
 
     startAnimation: function () {
-      this._model.animate();
+      this._stage.animate();
     },
 
     initHero: function () {
@@ -34,44 +29,13 @@ run.GameControl = (function () {
 
     },
 
-    controlHero: function () {
-      var characterGround = 20;
-      var characterWidth = 30;
 
-      if (this.moveLeft) {
-        this._oHero.x -= this.xVel;
-        if (this._oHero._scaleX > 0) {
-          this._oHero._scaleX *= -1;
-          this._oHero.x += characterWidth;
-        }
-      } else if (this.moveRight) {
-        this._oHero.x += this.xVel;
-        if (this._oHero._scaleX < 0) {
-          this._oHero._scaleX *= -1;
-          this._oHero.x -= characterWidth;
-        }
-      }
-
-      if (this.isJumping) {
-        this.yVel += run.Config.get('GRAVITY');
-        this._oHero.y += this.yVel;
-
-        if (this._oHero.y > characterGround) {
-          this._oHero.y = characterGround;
-          this.yVel = 0;
-          this.isJumping = false;
-        }
-
-      }
-    },
 
     tick : function(){
       var updateStack = this.updateStack;
       var i;
 
-      this.controlHero();
-
-      if(this._model.startTime === 0){
+      if(this._stage.startTime === 0){
         for (i = 0; i < updateStack.length; i++) {
           updateStack[i].initFrame();
         }
@@ -84,36 +48,37 @@ run.GameControl = (function () {
           updateStack[i].update();
         }
       }
+
+      //-------------------------------------------------------------------------------------------------------------------------------
+      // 1. 간 거리에 따라 Level set
+      // 2. Level에 맞게 랜덤으로 그라운드 및 아이템 적들을 생성해 준다.
+      // 3. Level에 따른 스피드 set
+      // 4. 스피드가 곧 거리 - 총 거리 = 현재 거리 + 스피드
+      //-------------------------------------------------------------------------------------------------------------------------------
     },
 
     addKeyEvents : function () {
-
       $(window)
           .on('keydown', $.proxy(this.keyDownHandler, this))
           .on('keyup', $.proxy(this.keyUpHandler, this));
     },
 
-    jump : function(){
-      if (this.isJumping === false) {
-        this.yVel = -15;
-        this.isJumping = true;
-      }
-    },
+
 
     keyDownHandler : function (e) {
       e.preventDefault();
 
       switch(e.keyCode){
         case 32 :// jump
-          this.jump();
+          this._oHero.jump();
           break;
         case 37 :// left
-          this.moveLeft = true;
+          //this.moveLeft = true;
           break;
         case 38 :// up
           break;
         case 39 :// right
-          this.moveRight = true;
+          //this.moveRight = true;
           break;
         case 40 :// down
           break;
@@ -123,11 +88,11 @@ run.GameControl = (function () {
     keyUpHandler : function(e){
       switch(e.keyCode) {
         case 37 :
-          this.moveLeft = false;
+          //this.moveLeft = false;
           break;
         // right
         case 39 :
-          this.moveRight = false;
+          //this.moveRight = false;
           break;
       }
     },

@@ -85,8 +85,6 @@
         return;
       }
       this.eventListenerObj = this.eventListenerObj || {};
-      console.log(this.eventListenerObj);
-      console.log(this.eventListenerObj[type]);
       this.eventListenerObj[type] = this.eventListenerObj[type] || [];
       this.eventListenerObj[type].push(callback);
     };
