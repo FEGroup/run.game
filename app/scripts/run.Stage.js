@@ -3,6 +3,7 @@ run.Stage = (function () {
 
   return run.Class.extend({
     initialize: function (ctx) {
+
       this.ctx = ctx;
     },
 

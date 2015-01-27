@@ -76,6 +76,52 @@
 
     extend(proto, props);
 
+
+
+    // Defaults Methods
+
+    NewClass.prototype.addEventListener = function (type, callback) {
+      if (typeof type !== 'string' || typeof callback !== 'function'){
+        return;
+      }
+      this.eventListenerObj = this.eventListenerObj || {};
+      console.log(this.eventListenerObj);
+      console.log(this.eventListenerObj[type]);
+      this.eventListenerObj[type] = this.eventListenerObj[type] || [];
+      this.eventListenerObj[type].push(callback);
+    };
+
+    NewClass.prototype.dispatchEvent = function (e) {
+      if (this.eventListenerObj[e.type] === null){
+        return;
+      }
+
+      for (var i in this.eventListenerObj[e.type]) {
+        this.eventListenerObj[e.type][i](e);
+      }
+    };
+
+    NewClass.prototype.removeEventListener = function (type, callback) {
+      if (!this.eventListenerObj[type]){
+        return;
+      }
+
+      var index = this.eventListenerObj[type].indexOf(callback);
+      if (index > -1) {
+        this.eventListenerObj[type].splice(index, 1);
+        if (this.eventListenerObj[type].length === 0){
+          this.eventListenerObj[type] = null;
+        }
+      }
+    };
+
+    NewClass.prototype.hasEventListener = function (type) {
+      if(!this.eventListenerObj[type] || this.eventListenerObj[type].length === 0){
+        return false;
+      }
+      return true;
+    };
+
     return NewClass;
   };
 })();
