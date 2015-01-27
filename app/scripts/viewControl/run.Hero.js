@@ -10,7 +10,7 @@ run.Hero = (function () {
 
     defaults: {
       xVel: 5,
-      yVel: run.Config.get('INIT_JUMP_VELOCITY'),
+      yVel: 0,
       isJumping: false,
       moveLeft: false,
       moveRight: false,
@@ -18,7 +18,8 @@ run.Hero = (function () {
       y: 0,
       _currentFrame: 0,
       _name: '',
-      _ctx: null
+      _ctx: null,
+      mode : ''
     },
 
     /**
