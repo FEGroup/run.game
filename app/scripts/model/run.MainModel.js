@@ -1,7 +1,11 @@
-run.MainModel = (function(){
+run.MainModel = (function () {
 
   return run.Model.extend({
-    initialize : function(){
+    defaults: {
+      speed: 0,
+      distance: 0
+    },
+    initialize: function () {
 
     }
   });

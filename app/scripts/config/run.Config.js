@@ -6,7 +6,15 @@
     defaults : {
       FPS : 30,
       GRAVITY : 5,
-      INIT_JUMP_VELOCITY : -30
+      INIT_JUMP_VELOCITY : -30,
+      CREATE_EVENT: 'createEvent',
+      MOVE_EVENT: 'moveEvent',
+      GROUND_TYPE: {
+        BOTTOM: 'bottom',
+        SECOND: 'second',
+        THIRD: 'third',
+        CLIFF: 'cliff'
+      }
     },
 
     get : function(prop){

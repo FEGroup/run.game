@@ -2,12 +2,12 @@ run.GameControl = (function () {
   'use strict';
 
   return run.Class.extend({
-    defaults : {
-      startTime : 0,
-      updateStack : []
+    defaults: {
+      startTime: 0,
+      updateStack: []
     },
 
-    initialize : function(stage, model){
+    initialize: function (stage, model) {
       this._stage = stage;
       this.updateStack = [];
 
@@ -29,11 +29,11 @@ run.GameControl = (function () {
     },
 
 
-    tick : function(){
+    tick: function () {
       var updateStack = this.updateStack;
       var i;
 
-      if(this._stage.startTime === 0){
+      if (this._stage.startTime === 0) {
         for (i = 0; i < updateStack.length; i++) {
           updateStack[i].initFrame();
         }
@@ -46,27 +46,25 @@ run.GameControl = (function () {
           updateStack[i].update();
         }
       }
-
-      //-------------------------------------------------------------------------------------------------------------------------------
-      // 1. 간 거리에 따라 Level set
-      // 2. Level에 맞게 랜덤으로 그라운드 및 아이템 적들을 생성해 준다.
-      // 3. Level에 따른 스피드 set
-      // 4. 스피드가 곧 거리 - 총 거리 = 현재 거리 + 스피드
-      //-------------------------------------------------------------------------------------------------------------------------------
+      /**
+       * 1. 간 거리에 따라 Level set
+       * 2. Level에 맞게 랜덤으로 그라운드 및 아이템 적들을 생성해 준다.
+       * 3. Level에 따른 스피드 set
+       * 4. 스피드가 곧 거리 - 총 거리 = 현재 거리 + 스피드
+       */
     },
 
-    addKeyEvents : function () {
+    addKeyEvents: function () {
       $(window)
-          .on('keydown', $.proxy(this.keyDownHandler, this))
-          .on('keyup', $.proxy(this.keyUpHandler, this));
+        .on('keydown', $.proxy(this.keyDownHandler, this))
+        .on('keyup', $.proxy(this.keyUpHandler, this));
     },
 
 
-
-    keyDownHandler : function (e) {
+    keyDownHandler: function (e) {
       e.preventDefault();
 
-      switch(e.keyCode){
+      switch (e.keyCode) {
         case 32 :// jump
           this._oHero.jump();
           break;
@@ -83,8 +81,8 @@ run.GameControl = (function () {
       }
     },
 
-    keyUpHandler : function(e){
-      switch(e.keyCode) {
+    keyUpHandler: function (e) {
+      switch (e.keyCode) {
         case 37 :
           //this.moveLeft = false;
           break;
@@ -95,11 +93,11 @@ run.GameControl = (function () {
       }
     },
 
-    changeDepth : function (obj1, obj2) {
+    changeDepth: function (obj1, obj2) {
       var updateStack = this.updateStack;
 
       var index1 = updateStack.indexOf(obj1), index2 = updateStack.indexOf(obj2), tm1, tm2;
-      if (index1 < 0 || index2 < 0){
+      if (index1 < 0 || index2 < 0) {
         return;
       }
 

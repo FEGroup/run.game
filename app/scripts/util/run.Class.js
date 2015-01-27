@@ -25,11 +25,20 @@
     };
 
     var NewClass = function () {
-      if(this.defaults){
-        for(var prop in this.defaults){
-          this[prop] = this.defaults[prop];
+      var defaults;
+      if(this.__super__ && this.__super__.defaults){
+        defaults = this.__super__.defaults;
+        for(var prop in defaults){
+          this[prop] = defaults[prop];
         }
       }
+      if(this.defaults){
+        defaults = this.defaults;
+        for(var prop in defaults){
+          this[prop] = defaults[prop];
+        }
+      }
+
 
       if (this.initialize) {
         this.initialize.apply(this, arguments);
@@ -95,7 +104,7 @@
       }
 
       for (var i in this.eventListenerObj[e.type]) {
-        this.eventListenerObj[e.type][i](e);
+        this.eventListenerObj[e.type][i].apply(null, arguments);
       }
     };
 
