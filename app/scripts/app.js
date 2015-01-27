@@ -21,9 +21,7 @@
     var ctx = el.getContext('2d');
 
     var oStage = new run.Stage(ctx);
-    var config = new run.Config();
-    var oModel = new run.MainModel(config);
-
+    var oModel = new run.MainModel();
     new run.GameControl(oStage, oModel);
   };
 

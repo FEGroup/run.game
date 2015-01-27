@@ -43,8 +43,9 @@ run.Hero = (function () {
           this._draw();
           this._currentFrame++;
 
-          if (this._currentFrame >= run.Sources[this._name].frames.length)
+          if (this._currentFrame >= run.Sources[this._name].frames.length){
               this._currentFrame = 0;
+          }
         },
 
         setPoint: function (lx, ly) {

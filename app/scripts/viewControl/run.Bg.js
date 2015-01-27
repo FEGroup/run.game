@@ -19,7 +19,7 @@ run.Bg = (function () {
 
             this._ctx.drawImage(src.imageObj,
                 src.frames[this._currentFrame][0], src.frames[this._currentFrame][1], src.frames[this._currentFrame][2], src.frames[this._currentFrame][3],
-                this._x, this._y, src.frames[this._currentFrame][2], src.frames[this._currentFrame][3]);
+                this.x, this.y, src.frames[this._currentFrame][2], src.frames[this._currentFrame][3]);
         },
 
         update: function () {

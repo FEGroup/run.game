@@ -1,20 +1,15 @@
 /**
- * Created by Naver on 2015-01-22.
+ * run.EventDispatcher
+ * @class
  */
-//----------------------------------------------------------------
-//
-//  EventDispatcher
-//
-//----------------------------------------------------------------
-var EventDispatcher = EventDispatcher || {};
-
-(function() {
+run.EventDispatcher = (function() {
   'use strict';
 
-  EventDispatcher = run.Class.extend({
+  return run.Class.extend({
     initialize: function () {
       this.eventListenerObj = {};
     },
+
     addEventListener: function (type, callback) {
       if (typeof type !== 'string' || typeof callback !== 'function'){
         return;
@@ -25,6 +20,7 @@ var EventDispatcher = EventDispatcher || {};
       this.eventListenerObj[type] = this.eventListenerObj[type] || [];
       this.eventListenerObj[type].push(callback);
     },
+
     dispatchEvent: function (e) {
       if (this.eventListenerObj[e.type] === null){
         return;
@@ -34,6 +30,7 @@ var EventDispatcher = EventDispatcher || {};
         this.eventListenerObj[e.type][i](e);
       }
     },
+
     removeEventListner: function (type, callback) {
       if (!this.eventListenerObj[type]){
         return;
@@ -47,6 +44,7 @@ var EventDispatcher = EventDispatcher || {};
         }
       }
     },
+
     hasEventListener: function (type) {
       if (!this.eventListenerObj[type] || this.eventListenerObj[type].length === 0){
         return false;

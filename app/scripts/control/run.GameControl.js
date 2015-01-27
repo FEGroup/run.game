@@ -1,9 +1,8 @@
 run.GameControl = (function () {
   'use strict';
 
-  var GameControl = run.Class.extend({
+  return run.Class.extend({
     defaults : {
-      FPS : 15,
       startTime : 0,
       xVel : 5,
       yVel : 0,
@@ -12,6 +11,7 @@ run.GameControl = (function () {
       moveRight : false,
       updateStack : []
     },
+
     initialize : function(stage, model){
       this._stage = stage;
       this.updateStack = [];
@@ -37,7 +37,6 @@ run.GameControl = (function () {
     },
 
     controlHero: function () {
-      var gravity = 1.2;
       var characterGround = 20;
       var characterWidth = 30;
 
@@ -56,7 +55,7 @@ run.GameControl = (function () {
       }
 
       if (this.isJumping) {
-        this.yVel += gravity;
+        this.yVel += run.Config.get('GRAVITY');
         this._oHero.y += this.yVel;
 
         if (this._oHero.y > characterGround) {
@@ -68,7 +67,7 @@ run.GameControl = (function () {
       }
     },
 
-    tick : function(e){
+    tick : function(){
       var updateStack = this.updateStack;
       var i;
 
@@ -150,5 +149,4 @@ run.GameControl = (function () {
     }
   });
 
-  return GameControl;
 })();
