@@ -1,11 +1,14 @@
-(function(){
+(function () {
   'use strict';
 
-  run.Class = function () {};
+  run.Class = function () {
+  };
   run.Class.extend = function (props) {
 
     var create = Object.create || (function () {
-        function F() {}
+        function F() {
+        }
+
         return function (proto) {
           F.prototype = proto;
           return new F();
@@ -26,15 +29,15 @@
 
     var NewClass = function () {
       var defaults;
-      if(this.__super__ && this.__super__.defaults){
+      if (this.__super__ && this.__super__.defaults) {
         defaults = this.__super__.defaults;
-        for(var prop in defaults){
+        for (var prop in defaults) {
           this[prop] = defaults[prop];
         }
       }
-      if(this.defaults){
+      if (this.defaults) {
         defaults = this.defaults;
-        for(var prop in defaults){
+        for (var prop in defaults) {
           this[prop] = defaults[prop];
         }
       }
@@ -54,8 +57,9 @@
     NewClass.prototype = proto;
     NewClass.prototype.__super__ = parentProto;
 
-    if(!parentProto.initialize){
-      NewClass.prototype.__super__.initialize = function(){};
+    if (!parentProto.initialize) {
+      NewClass.prototype.__super__.initialize = function () {
+      };
     }
 
 
@@ -86,11 +90,10 @@
     extend(proto, props);
 
 
-
     // Defaults Methods
 
     NewClass.prototype.addEventListener = function (type, callback) {
-      if (typeof type !== 'string' || typeof callback !== 'function'){
+      if (typeof type !== 'string' || typeof callback !== 'function') {
         return;
       }
       this.eventListenerObj = this.eventListenerObj || {};
@@ -99,31 +102,30 @@
     };
 
     NewClass.prototype.dispatchEvent = function (e) {
-      if (this.eventListenerObj[e.type] === null){
+      if (this.eventListenerObj[e.type] === null) {
         return;
       }
-
       for (var i in this.eventListenerObj[e.type]) {
         this.eventListenerObj[e.type][i].apply(null, arguments);
       }
     };
 
     NewClass.prototype.removeEventListener = function (type, callback) {
-      if (!this.eventListenerObj[type]){
+      if (!this.eventListenerObj[type]) {
         return;
       }
 
       var index = this.eventListenerObj[type].indexOf(callback);
       if (index > -1) {
         this.eventListenerObj[type].splice(index, 1);
-        if (this.eventListenerObj[type].length === 0){
+        if (this.eventListenerObj[type].length === 0) {
           this.eventListenerObj[type] = null;
         }
       }
     };
 
     NewClass.prototype.hasEventListener = function (type) {
-      if(!this.eventListenerObj[type] || this.eventListenerObj[type].length === 0){
+      if (!this.eventListenerObj[type] || this.eventListenerObj[type].length === 0) {
         return false;
       }
       return true;

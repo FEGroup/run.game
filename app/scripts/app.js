@@ -3,7 +3,7 @@
   'use strict';
 
   run.loadResources = function(cb){
-    run.PRE_LOADER.preload(run.Sources, function(comImages){
+    run.PreLoader.preload(run.Sources, function(comImages){
       var src;
 
       for (src in comImages){

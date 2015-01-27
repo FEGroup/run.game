@@ -1,10 +1,12 @@
 run.GroundModel = (function () {
+
   return run.Model.extend({
     defaults: {
       _map: []
     },
 
     initialize: function () {
+
 
     },
 
