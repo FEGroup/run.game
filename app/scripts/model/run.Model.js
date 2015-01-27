@@ -1,6 +1,6 @@
 run.Model = (function(){
 
-  return run.EventDispatcher.extend({
+  return run.Class.extend({
     initialize : function(){
 
     }

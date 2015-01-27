@@ -32,8 +32,6 @@ run.GameControl = (function () {
       this._oHero = new run.Hero(this._stage.getContext(), 'hero');
       this.updateStack.push(this._oHero);
 
-      this._oBg = new run.Bg(this._stage.getContext(), 'bg');
-      this.updateStack.push(this._oBg);
     },
 
     controlHero: function () {
