@@ -22,6 +22,5 @@ run.GroundControl = (function () {
     update: function () {
 
     }
-
   })
-});
+})();

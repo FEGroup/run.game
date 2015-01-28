@@ -1,7 +1,7 @@
-(function () {
+run.Sources = (function () {
     'use strict';
 
-    run.Sources = {
+     return {
         hero: {
             img: 'img/hero.png',
             frames: {
@@ -22,5 +22,4 @@
             imageObj: null
         }
     };
-
 })();
