@@ -5,23 +5,33 @@ run.GameControl = (function () {
     defaults: {
       startTime: 0,
       updateStack: [],
-      _model: null
+      _model: null,
+      _oHeroControl: null,
+      _groundControl: null
     },
 
-    initialize: function (stage, model) {
+    initialize: function (stage) {
       this._stage = stage;
       this.updateStack = [];
 
+      this.initGround();
       this.initHero();
+
       this.addKeyEvents();
 
-      this._model = model;
+      this._model = run.MainModel;
+
       this._stage.addEventListener('enterframe', this.tick.bind(this));
       this.startAnimation();
     },
 
     startAnimation: function () {
       this._stage.animate();
+    },
+
+    initGround: function() {
+      this._groundControl = new run.GroundControl(this._stage.getContext(), new run.GroundModel());
+      this.updateStack.push(this._groundControl);
     },
 
     initHero: function () {

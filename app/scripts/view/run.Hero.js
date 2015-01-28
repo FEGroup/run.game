@@ -3,15 +3,14 @@ run.Hero = (function () {
 
   return run.View.extend({
 
-
     defaults: {
       model: null
     },
 
-
     initialize: function (model) {
       this.model = model;
     },
+
     draw: function () {
       var name = this.model.get('name'),
         pos = this.model.getSrc(this.model.get('mode'), name)[this.model.get('currentFrame')],
@@ -25,5 +24,6 @@ run.Hero = (function () {
         pos[0], pos[1], pos[2], pos[3],
         rect.x - rect.w / 2, rect.y - rect.h, rect.w, rect.h);
     }
+
   });
 })();

@@ -12,6 +12,11 @@
             imageObj: null
         },
 
+        ground: {
+            img: 'img/ground.png',
+            imageObj: null
+        },
+
         bg: {
             img: 'img/bg.png',
             imageObj: null

@@ -23,12 +23,14 @@ run.HeroModel = (function(){
 
     initialize : function(){
     },
+
     nextFrame: function(){
       this._currentFrame++;
       if (this._currentFrame >= this._totalFrames) {
         this._currentFrame = 0;
       }
     },
+
     getSrc: function(mode, name){
       switch(mode){
         case this.MODE.J_MODE:
@@ -40,5 +42,6 @@ run.HeroModel = (function(){
         default:
       }
     }
+
   });
 })();
