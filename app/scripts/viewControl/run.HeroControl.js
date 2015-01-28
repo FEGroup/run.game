@@ -23,9 +23,11 @@ run.HeroControl = (function () {
             this.setPoint(100, 100);
             this.setMode(this.model.MODE.R_MODE);
         },
+
         setValue: function (varName, value) {
             this.model.set(varName, value);
         },
+
         setMode: function (mode) {
             this.setValue('mode', mode);
             this.setValue('totalFrames', this.model.getSrc(this.model.get('mode'), this.model.get('name')).length);

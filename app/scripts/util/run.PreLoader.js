@@ -21,5 +21,19 @@ run.PreLoader = {
             img.onload = onLoad;
             img.src = images[src].img;
         }
+    },
+
+    load: function (cb) {
+        this.preload(run.Sources, function (comImages) {
+            var src;
+
+            for (src in comImages) {
+                run.Sources[src].imageObj = comImages[src].imageObj;
+            }
+
+            if (cb) {
+                cb();
+            }
+        });
     }
 };

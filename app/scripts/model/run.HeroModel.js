@@ -32,16 +32,7 @@ run.HeroModel = (function () {
         },
 
         getSrc: function (mode, name) {
-            switch (mode) {
-                case this.MODE.J_MODE:
-                    return run.Sources[name].frames.jump;
-                case this.MODE.R_MODE:
-                    return run.Sources[name].frames.run;
-                case this.MODE.D_MODE:
-                    return run.Sources[name].frames.dead;
-                default:
-            }
+            return run.Sources[name].frames[mode];
         }
-
     });
 })();
