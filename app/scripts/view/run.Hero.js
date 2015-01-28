@@ -1,3 +1,7 @@
+/**
+ * Hero가 여러 종류 생길 수 있다는 가정하에
+ * 추후 타입을 추가하자
+ */
 run.Hero = (function () {
   'use strict';
 
@@ -6,7 +10,10 @@ run.Hero = (function () {
     defaults: {
       model: null
     },
-
+    /**
+     * @constructor
+     * @param model
+     */
     initialize: function (model) {
       this.model = model;
     },

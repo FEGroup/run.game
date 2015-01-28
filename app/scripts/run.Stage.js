@@ -14,6 +14,7 @@ run.Stage = (function () {
     clearContext: function () {
       this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     },
+
     animate : function(){
       this.frameTime = this.startTime = (new Date()).getTime();
       requestAnimationFrame(this.tick.bind(this));

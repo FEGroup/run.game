@@ -9,19 +9,30 @@ run.GroundModel = (function () {
         CLIFF: 3,
         TRAP: 4
       },
-      _map: [],
-      _ctx: null,
-      _currentID: 0
+      gMap: [],
+      ctx: null,
+      currentID: 0,
+      endX: 0
     },
 
-    initialize: function () {
-
+    initialize: function (model) {
+      this.model = model;
     },
     addGround: function(type, option) {
-      this._currentID++;
-      switch (type){
-        case this.TYPE.BOTTOM:
+      var ground, mapObj;
+      this.currentID++;
 
+      switch (type) {
+        case this.TYPE.BOTTOM:
+          ground = new run.Ground(this.model, type, this.currentID);
+
+          mapObj = {
+            ground: ground,
+            id: this.currentID,
+            x: this.endX
+          };
+
+          this.endX += ground.width;
           break;
         case this.TYPE.SECOND:
 
@@ -36,24 +47,14 @@ run.GroundModel = (function () {
 
           break;
       }
-      this._map.push();
-    }
-    //
-    //dataUpdate: function () {
-    //  dispatchEvent(new Event(run.Config.MOVE_EVENT));
-    //},
-    //
-    //createGround: function (type, w) {
-    //  var type = run.Config.GROUND_TYPE;
-    //  switch (type) {
-    //    case type.BOTTOM:
-    //      break;
-    //    case type.SECOND:
-    //      break;
-    //  }
-    //  dispatchEvent(new Event(run.Config.CREATE_EVENT));
-    //}
+      this.gMap.push(mapObj);
+    },
 
+    getCurrentX: function(id) {
+      //this.gMap.every(function(obj){
+      //  obj.
+      //}, this);
+    }
   });
 
 })();

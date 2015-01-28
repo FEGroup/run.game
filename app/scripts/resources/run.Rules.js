@@ -11,7 +11,7 @@
         defaults : {
             MINIMUM_CREATE_DIS: 60,
             GROUND_MAP_GROUP: [
-
+                [0, 0, 0, 0, 0]
             ]
         },
 
