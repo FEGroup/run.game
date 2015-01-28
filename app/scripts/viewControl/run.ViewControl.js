@@ -3,7 +3,9 @@ run.ViewControl = (function () {
 
   return run.Class.extend({
     defaults: {
-      view: null
+    },
+    initialize: function(ctx, model){
+
     },
     update: function () {
 

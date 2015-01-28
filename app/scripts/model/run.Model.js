@@ -7,15 +7,16 @@ run.Model = (function(){
     },
 
     get : function(prop){
-      if(this.hasOwnProperty(prop)){
-        return this[prop];
+      var dist = "_" + prop;
+      if(this.hasOwnProperty(dist)){
+        return this[dist];
       } else {
-        throw new Error('no such config value' + prop);
+        throw new Error('no such config value' + dist);
       }
     },
 
     set : function(prop, val){
-      this[prop] = val;
+      this["_" + prop] = val;
     }
   });
 

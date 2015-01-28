@@ -4,7 +4,8 @@ run.GameControl = (function () {
   return run.Class.extend({
     defaults: {
       startTime: 0,
-      updateStack: []
+      updateStack: [],
+      _model: null
     },
 
     initialize: function (stage, model) {
@@ -24,8 +25,8 @@ run.GameControl = (function () {
     },
 
     initHero: function () {
-      this._oHero = new run.Hero(this._stage.getContext(), new run.HeroModel());
-      this.updateStack.push(this._oHero);
+      this._oHeroControl = new run.HeroControl(this._stage.getContext(), new run.HeroModel());
+      this.updateStack.push(this._oHeroControl);
     },
 
 
@@ -34,8 +35,11 @@ run.GameControl = (function () {
       var i;
 
       if (this._stage.startTime === 0) {
+
         for (i = 0; i < updateStack.length; i++) {
-          updateStack[i].initFrame();
+          if (updateStack[i].initFrame && typeof updateStack[i].initFrame === 'function') {
+            updateStack[i].initFrame();
+          }
         }
         return;
       }
@@ -66,7 +70,7 @@ run.GameControl = (function () {
 
       switch (e.keyCode) {
         case 32 :// jump
-          this._oHero.jump();
+          this._oHeroControl.jump();
           break;
         case 37 :// left
           //this.moveLeft = true;
