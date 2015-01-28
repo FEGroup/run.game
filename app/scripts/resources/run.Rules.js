@@ -1,4 +1,4 @@
-(function(){
+run.Rules = (function(){
     'use strict';
 
   /**
@@ -13,17 +13,9 @@
             GROUND_MAP_GROUP: [
 
             ]
-        },
-
-        get : function(prop){
-            if(this.hasOwnProperty(prop)){
-                return this[prop];
-            } else {
-                throw new Error('no such config value' + prop);
-            }
         }
     });
 
     // run.Rules is singleton
-    run.Rules = new Rules();
+    return new Rules();
 })();

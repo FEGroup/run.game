@@ -1,17 +1,16 @@
 run.ViewControl = (function () {
-  'use strict';
+    'use strict';
 
-  return run.Class.extend({
+    return run.Class.extend({
 
-    defaults: {
-    },
+        defaults: {},
 
-    initialize: function(ctx, model){
+        initialize: function (ctx, model) {
 
-    },
-    update: function () {
+        },
+        update: function () {
 
-    }
+        }
 
-  });
+    });
 })();

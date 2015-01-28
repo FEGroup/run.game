@@ -1,17 +1,15 @@
 run.View = (function () {
-  'use strict';
+    'use strict';
 
-  return run.Class.extend({
-    defaults: {
+    return run.Class.extend({
+        defaults: {},
 
-    },
+        initialize: function (ctx) {
+            this._ctx = ctx;
+        },
 
-    initialize: function (ctx) {
-      this._ctx = ctx;
-    },
+        draw: function () {
 
-    draw: function () {
-
-    }
-  });
+        }
+    });
 })();

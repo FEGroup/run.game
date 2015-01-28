@@ -1,31 +1,32 @@
 /* jshint devel:true */
-(function(){
-  'use strict';
+(function () {
+    'use strict';
 
-  run.loadResources = function(cb){
-    run.PreLoader.preload(run.Sources, function(comImages){
-      var src;
+    run.loadResources = function (cb) {
+        run.PreLoader.preload(run.Sources, function (comImages) {
+            var src;
 
-      for (src in comImages){
-        run.Sources[src].imageObj = comImages[src].imageObj;
-      }
+            for (src in comImages) {
+                run.Sources[src].imageObj = comImages[src].imageObj;
+            }
 
-      if(cb){
-        cb();
-      }
+            if (cb) {
+                cb();
+            }
+        });
+    };
+
+    run.init = function (id) {
+        var el = document.getElementById(id);
+        var ctx = el.getContext('2d');
+
+        var oStage = new run.Stage(ctx);
+
+        new run.GameControl(oStage);
+    };
+
+    run.loadResources(function () {
+        run.init('_stage');
     });
-  };
-
-  run.init = function(id){
-    var el = document.getElementById(id);
-    var ctx = el.getContext('2d');
-
-    var oStage = new run.Stage(ctx);
-    new run.GameControl(oStage);
-  };
-
-  run.loadResources(function(){
-    run.init('_stage');
-  });
 
 })();

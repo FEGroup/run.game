@@ -1,12 +1,15 @@
 run.Bg = (function () {
-  'use strict';
+    'use strict';
 
-  return run.View.extend({
-    defaults: {
-    },
-    draw: function () {
+    return run.View.extend({
 
-    }
-  });
+        defaults: {
+
+        },
+
+        draw: function () {
+
+        }
+    });
 
 })();
