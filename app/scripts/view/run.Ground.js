@@ -7,6 +7,7 @@ run.Ground = (function () {
             id: -1,
             type: -1,
             width: 0,
+            height: 0,
             image: null
         },
 
@@ -22,26 +23,34 @@ run.Ground = (function () {
             this.type = type;
 
             switch (type) {
-                case this.TYPE.BOTTOM:
+                case this.model.TYPE.BOTTOM:
                     this.image = run.Sources.bottomGround.imageObj;
+                    this.width = this.image.width;
+                    this.height = this.image.height;
                     break;
-                case this.TYPE.SECOND:
+                case this.model.TYPE.SECOND:
 
                     break;
-                case this.TYPE.THIRD:
+                case this.model.TYPE.THIRD:
 
                     break;
-                case this.TYPE.CLIFF:
+                case this.model.TYPE.CLIFF:
+                    this.image = null;
+                    this.width = run.Rules.MINIMUM_CREATE_DIS;
+                    this.height = 0;
 
                     break;
-                case this.TYPE.TRAP:
+                case this.model.TYPE.TRAP:
 
                     break;
             }
         },
 
         draw: function (ctx, x, y) {
-            ctx.drawImage(x, y, this.image.width, this.image.height);
+            if (this.image === null) {
+                return;
+            }
+            ctx.drawImage(this.image, x, y, this.width, this.height);
         }
 
     });

@@ -20,6 +20,11 @@ run.HeroController = (function () {
             this.model = model;
             this.hero = new run.Hero(this.model);
             this.ctx = ctx;
+
+            this.initSetting();
+        },
+
+        initSetting: function () {
             this.name = 'hero';
             this.src = run.Sources[this.name];
 
@@ -53,15 +58,18 @@ run.HeroController = (function () {
                      * 2. 그라운드가 이 캐릭터 범위에 포함되어 있을 때 그라운드 윗부분보다 케릭터가 높게 있다면
                      *    윗 부분에 닿았는지 체크 후 닿았다면 R_MODE로 변경
                      */
-                    this.setPoint(null, this.model.get('y') + this.model.get('yVel'));
 
                     if (this.model.get('y') > characterGround) {
                         this.setPoint(null, characterGround);
                         this.setValue('yVel', 0);
                         this.setMode(this.model.MODE.R_MODE);
                     }
+
+                    this.setPoint(null, this.model.get('y') + this.model.get('yVel'));
+
                     break;
                 case this.model.MODE.R_MODE:
+
                     /**
                      * 1. 런모드일 경우 캐릭터 바닥에 그라운드가 있는지 없는지 체크 후 없다면 yVel을 0으로 셋팅하여 떨어뜨림
                      * 2. 떨어지면서 그라운드 체크
@@ -87,6 +95,7 @@ run.HeroController = (function () {
                 this.setMode(this.model.MODE.J_MODE);
             }
         },
+
         setPoint: function (lx, ly) {
             if (lx !== null) {
                 this.setValue('x', lx);

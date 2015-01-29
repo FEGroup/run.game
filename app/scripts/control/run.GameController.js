@@ -4,45 +4,59 @@ run.GameController = (function () {
     return run.Class.extend({
         defaults: {
             startTime: 0,
-            _model: null,
-            _oHeroControl: null,
-            _groundControl: null
+            model: null,
+            oHeroControl: null,
+            groundControl: null,
+            stage: null,
+            oStackCollection: null
         },
 
         initialize: function (stage) {
-            this._stage = stage;
-
+            this.stage = stage;
+            this.model = new run.MainModel();
             this.oStackCollection = new run.StackCollection();
 
+            this.addEvents();
+            this.bindKeyEvents();
+            this.startGame();
+        },
+
+        addEvents: function(){
+            this.stage.on('enterframe', this.tick.bind(this));
+        },
+
+        startGame: function(){
             this.initGround();
             this.initHero();
-
-            this.bindKeyEvents();
-
-            this._model = run.MainModel;
-
-            this._stage.on('enterframe', this.tick.bind(this));
+            this.initSetting();
             this.startAnimation();
         },
 
         startAnimation: function () {
-            this._stage.animate();
+            this.stage.animate();
+        },
+
+        initSetting: function(){
+            this.model.set('level', 0);
+            this.model.set('speed', run.Rules.SPEED_OF_LEVEL[this.model.get('level')]);
         },
 
         initGround: function () {
-            this._groundControl = new run.GroundController(this._stage.getContext(), new run.GroundModel());
-            this.oStackCollection.add(this._groundControl);
+            this.groundControl = new run.GroundController(this.stage.getContext(), new run.GroundModel(), this.model);
+            this.oStackCollection.add(this.groundControl);
         },
 
         initHero: function () {
-            this._oHeroControl = new run.HeroController(this._stage.getContext(), new run.HeroModel());
-            this.oStackCollection.add(this._oHeroControl);
+            this.oHeroControl = new run.HeroController(this.stage.getContext(), new run.HeroModel());
+            this.oStackCollection.add(this.oHeroControl);
         },
 
         tick: function () {
             var oStackCollection = this.oStackCollection;
 
-            if (this._stage.startTime === 0) {
+            this.stage.clearContext();
+
+            if (this.stage.startTime === 0) {
                 oStackCollection.each(function (item) {
                     if (item.initFrame && typeof item.initFrame === 'function') {
                         item.initFrame();
@@ -52,18 +66,16 @@ run.GameController = (function () {
                 return;
             }
 
-            this._stage.clearContext();
-
             oStackCollection.each(function (item) {
                 if (item.update && typeof item.update === 'function') {
                     item.update();
                 }
             });
             /**
-             * 1. 간 거리에 따라 Level set
-             * 2. Level에 맞게 랜덤으로 그라운드 및 아이템 적들을 생성해 준다.
-             * 3. Level에 따른 스피드 set
-             * 4. 스피드가 곧 거리 - 총 거리 = 현재 거리 + 스피드
+             * 간 거리에 따라 Level set
+             * Level에 따른 스피드 set
+             * 스피드가 곧 거리 - 총 거리 = 현재 거리 + 스피드
+             * score는 거리 * x로 구해도 될 듯
              */
         },
 
@@ -78,7 +90,7 @@ run.GameController = (function () {
 
             switch (e.keyCode) {
                 case 32 :// jump
-                    this._oHeroControl.jump();
+                    this.oHeroControl.jump();
                     break;
                 case 37 :// left
                     //this.moveLeft = true;

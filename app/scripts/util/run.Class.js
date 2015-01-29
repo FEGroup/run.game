@@ -141,7 +141,7 @@ run.Class = (function () {
         },
 
         dispatchEvent: function (e) {
-            if (this.eventListenerObj[e.type] === null) {
+            if (!this.eventListenerObj || this.eventListenerObj.hasOwnProperty(e.type) === false) {
                 return;
             }
             for (var i in this.eventListenerObj[e.type]) {

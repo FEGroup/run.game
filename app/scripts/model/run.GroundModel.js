@@ -31,15 +31,6 @@ run.GroundModel = (function () {
             this.currentID++;
             this.gMap.push(obj);
             this.dispatchEvent(new Event(this.Events.CHANGE));
-        },
-
-        getCurrentX: function (id) {
-            var i = 0;
-            while (i < this.gMap.length) {
-                if (this.gMap[i].id === id) {
-                    return this.gMap[i].x;
-                }
-            }
         }
     });
 

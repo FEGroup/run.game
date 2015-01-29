@@ -8,29 +8,25 @@ run.GroundController = (function () {
             model: null,
             ctx: null,
             typeObj: null,
-            maps: null,
-            initBlock: 5
+            maps: null
         },
 
-        initialize: function (ctx, model) {
+        initialize: function (ctx, model, mainModel) {
             this.model = model;
             this.ctx = ctx;
-            this.mainModel = run.MainModel;
+            this.mainModel = mainModel;
             this.typeObj = this.model.get('TYPE');
             this.maps = this.model.get('gMap');
             this.initSetting();
         },
 
         initSetting: function () {
-            var i = 0;
-            while(i < this.initBlock)
-            {
-                this.model.addGround(this.createGround(this.typeObj.BOTTOM));
-                i++;
-            }
+            this.checkGround();
         },
 
-        createGround: function(type, option) {
+        createGround: function (type, option) {
+
+
             var ground, mapObj, id = this.model.get('currentID');
 
             switch (type) {
@@ -52,7 +48,15 @@ run.GroundController = (function () {
 
                     break;
                 case this.typeObj.CLIFF:
+                    ground = new run.Ground(this.model, type, id);
 
+                    mapObj = {
+                        ground: ground,
+                        id: id,
+                        x: this.model.get('endX'),
+                        y: run.Config.GROUND_BOTTOM_Y
+                    };
+                    this.model.set('endX', this.model.get('endX') + ground.width);
                     break;
                 case this.typeObj.TRAP:
 
@@ -65,18 +69,40 @@ run.GroundController = (function () {
         /**
          * 그라운드를 생성할 시기인지 판단해서 그라운드 그룹을 가져온다.
          */
-        checkGround: function(){
+        checkGround: function () {
+            if (this.model.get('endX') - this.mainModel.get('speed') <= run.Config.STAGE_WIDTH) {
+                var i = 0,
+                    availGroundArr = run.Rules.AVAILABLE_GROUNDS[this.mainModel.get('level')],
+                    targetArr = run.Rules.GROUND_MAP_GROUP[Math.floor(Math.random() * availGroundArr.length)];
 
+                while (i < targetArr.length) {
+                    this.model.addGround(this.createGround(targetArr[i]));
+                    i++;
+                }
+                this.checkGround();
+            }
+        },
+
+        removeGround: function(target) {
+            this.maps.splice(this.maps.indexOf(target), 1);
         },
 
         update: function () {
-            var i = 0, map;
+            var i = 0, target, speed = this.mainModel.get('speed');
+
             this.checkGround();
-            this.model.set('startX', this.model.get('startX') + this.mainModel.get('speed'));
-            while(i < this.maps.length){
-                map = this.maps[i];
-                map.x -= this.mainModel.get('speed');
-                map.ground.draw(this.ctx, map.x, map.y);
+
+            this.model.set('startX', this.model.get('startX') - speed);
+            this.model.set('endX', this.model.get('endX') - speed);
+
+            while (i < this.maps.length) {
+                target = this.maps[i];
+                target.x -= speed;
+                if (target.x + target.ground.width <= 0) {
+                    this.removeGround(target);
+                    continue;
+                }
+                target.ground.draw(this.ctx, target.x, target.y);
                 i++;
             }
         }

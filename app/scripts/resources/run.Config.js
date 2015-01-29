@@ -3,17 +3,11 @@ run.Config = (function () {
 
     var Config = run.Class.extend({
         defaults : {
+            STAGE_WIDTH: 600,
+            STAGE_HEIGHT: 300,
             FPS : 30,
             GRAVITY : 5,
-            INIT_JUMP_VELOCITY : -30,
-            CREATE_EVENT: 'createEvent',
-            MOVE_EVENT: 'moveEvent',
-            GROUND_TYPE: {
-                BOTTOM: 'bottom',
-                SECOND: 'second',
-                THIRD: 'third',
-                CLIFF: 'cliff'
-            },
+            INIT_JUMP_VELOCITY : -50,
             GROUND_BOTTOM_Y: 250
         }
     });
