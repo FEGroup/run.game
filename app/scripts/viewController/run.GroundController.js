@@ -11,10 +11,10 @@ run.GroundController = (function () {
             maps: null
         },
 
-        initialize: function (ctx, model, mainModel) {
-            this.model = model;
+        initialize: function (ctx, mc) {
             this.ctx = ctx;
-            this.mainModel = mainModel;
+            this.model = mc.getModel(mc.MODEL.GROUND);
+            this.mainModel = mc.getModel(mc.MODEL.MAIN);;
             this.typeObj = this.model.get('TYPE');
             this.maps = this.model.get('gMap');
             this.initSetting();
@@ -25,8 +25,6 @@ run.GroundController = (function () {
         },
 
         createGround: function (type, option) {
-
-
             var ground, mapObj, id = this.model.get('currentID');
 
             switch (type) {
@@ -39,6 +37,7 @@ run.GroundController = (function () {
                         x: this.model.get('endX'),
                         y: run.Config.GROUND_BOTTOM_Y
                     };
+
                     this.model.set('endX', this.model.get('endX') + ground.width);
                     break;
                 case this.typeObj.SECOND:
@@ -56,6 +55,7 @@ run.GroundController = (function () {
                         x: this.model.get('endX'),
                         y: run.Config.GROUND_BOTTOM_Y
                     };
+
                     this.model.set('endX', this.model.get('endX') + ground.width);
                     break;
                 case this.typeObj.TRAP:

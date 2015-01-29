@@ -5,8 +5,10 @@ run.HeroController = (function () {
 
         defaults: {
             hero: null,
-            model: null,
+            heroModel: null,
+            groundModel: null,
             ctx: null,
+            groundMap: null,
             name: '',
             src: null
         },
@@ -16,9 +18,11 @@ run.HeroController = (function () {
          * @param ctx
          * @param model
          */
-        initialize: function (ctx, model) {
-            this.model = model;
-            this.hero = new run.Hero(this.model);
+        initialize: function (ctx, mc) {
+            this.heroModel = mc.getModel(mc.MODEL.HERO);
+            this.groundModel = mc.getModel(mc.MODEL.GROUND);
+            this.groundMap = this.groundModel.get('gMap');
+            this.hero = new run.Hero(this.heroModel);
             this.ctx = ctx;
 
             this.initSetting();
@@ -27,20 +31,22 @@ run.HeroController = (function () {
         initSetting: function () {
             this.name = 'hero';
             this.src = run.Sources[this.name];
-
+            this.scale = 0.5;
             this.setValue('currentFrame', 0);
-            this.setValue('scale', 0.5);
+            this.setValue('scale', this.scale);
             this.setPoint(100, 100);
-            this.setMode(this.model.MODE.R_MODE);
+            this.setValue('width', run.Sources.hero.imageObj.height * this.scale);
+            this.setValue('height', run.Sources.hero.imageObj.height * this.scale);
+            this.setMode(this.heroModel.MODE.J_MODE);
         },
 
         setValue: function (varName, value) {
-            this.model.set(varName, value);
+            this.heroModel.set(varName, value);
         },
 
         setMode: function (mode) {
             this.setValue('mode', mode);
-            this.setValue('totalFrames', this.src.frames[this.model.mode].length);
+            this.setValue('totalFrames', this.src.frames[this.heroModel.mode].length);
         },
 
         initFrame: function () {
@@ -49,26 +55,41 @@ run.HeroController = (function () {
 
         update: function () {
             var characterGround = 100;
-            switch (this.model.get('mode')) {
-                case this.model.MODE.J_MODE:
-                    this.setValue('yVel', this.model.get('yVel') + run.Config.get('GRAVITY'));
+            switch (this.heroModel.get('mode')) {
+                case this.heroModel.MODE.J_MODE:
+                    this.setValue('yVel', this.heroModel.get('yVel') + run.Config.get('GRAVITY'));
                     /**
                      * 1. 그라운드의 밑 부분 이 캐릭터 좌표상 위에 있을 때 캐릭터의 상체가 그 위로 올라갔는지(뚫고 올라갔는지 체크)
                      *    올라갔다면 y좌표를 그라운드 하단에 맞추고 yVel을 +값으로 셋팅
                      * 2. 그라운드가 이 캐릭터 범위에 포함되어 있을 때 그라운드 윗부분보다 케릭터가 높게 있다면
                      *    윗 부분에 닿았는지 체크 후 닿았다면 R_MODE로 변경
                      */
+                    var i = 0,
+                        rect = {x: this.heroModel.get('x'), y: this.heroModel.get('y') + this.heroModel.get('yVel'), width: this.heroModel.get('width'), height: this.heroModel.get('height')},
+                        dest = null;
 
-                    if (this.model.get('y') > characterGround) {
-                        this.setPoint(null, characterGround);
-                        this.setValue('yVel', 0);
-                        this.setMode(this.model.MODE.R_MODE);
+                    while(i < this.groundMap.length){
+                        dest = this.groundMap[i].ground;
+
+                        if (dest.x + dest.width < rect.x || dest.x > rect.x + rect.width / 2){
+                            i++;
+                            continue;
+                        }
+                        if (rect.y > dest.y) {
+                            this.setPoint(null, dest.y);
+                            this.setValue('yVel', 0);
+                            this.setMode(this.heroModel.MODE.R_MODE);
+
+                            break;
+                        }
+                        i++;
                     }
 
-                    this.setPoint(null, this.model.get('y') + this.model.get('yVel'));
+
+                    this.setPoint(null, this.heroModel.get('y') + this.heroModel.get('yVel'));
 
                     break;
-                case this.model.MODE.R_MODE:
+                case this.heroModel.MODE.R_MODE:
 
                     /**
                      * 1. 런모드일 경우 캐릭터 바닥에 그라운드가 있는지 없는지 체크 후 없다면 yVel을 0으로 셋팅하여 떨어뜨림
@@ -76,7 +97,7 @@ run.HeroController = (function () {
                      * 3. 스테이지 아랫부분을 벗어나면 엔딩
                      */
                     break;
-                case this.model.MODE.D_MODE:
+                case this.heroModel.MODE.D_MODE:
                     break;
                 default :
 
@@ -85,14 +106,14 @@ run.HeroController = (function () {
 
             this.hero.draw(this.ctx, this.src);
 
-            this.model.nextFrame();
+            this.heroModel.nextFrame();
         },
 
         jump: function () {
-            if (this.model.get('mode') === this.model.MODE.R_MODE) {
+            if (this.heroModel.get('mode') === this.heroModel.MODE.R_MODE) {
                 this.setValue('currentFrame', 0);
                 this.setValue('yVel', run.Config.get('INIT_JUMP_VELOCITY'));
-                this.setMode(this.model.MODE.J_MODE);
+                this.setMode(this.heroModel.MODE.J_MODE);
             }
         },
 

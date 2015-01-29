@@ -4,6 +4,7 @@ run.GameController = (function () {
     return run.Class.extend({
         defaults: {
             startTime: 0,
+            modelCollection: null,
             model: null,
             oHeroControl: null,
             groundControl: null,
@@ -13,8 +14,9 @@ run.GameController = (function () {
 
         initialize: function (stage) {
             this.stage = stage;
-            this.model = new run.MainModel();
+            this.modelCollection = new run.ModelCollection();
             this.oStackCollection = new run.StackCollection();
+            this.model = this.modelCollection.getModel(this.modelCollection.MODEL.MAIN);
 
             this.addEvents();
             this.bindKeyEvents();
@@ -42,12 +44,12 @@ run.GameController = (function () {
         },
 
         initGround: function () {
-            this.groundControl = new run.GroundController(this.stage.getContext(), new run.GroundModel(), this.model);
+            this.groundControl = new run.GroundController(this.stage.getContext(), this.modelCollection);
             this.oStackCollection.add(this.groundControl);
         },
 
         initHero: function () {
-            this.oHeroControl = new run.HeroController(this.stage.getContext(), new run.HeroModel());
+            this.oHeroControl = new run.HeroController(this.stage.getContext(), this.modelCollection);
             this.oStackCollection.add(this.oHeroControl);
         },
 
