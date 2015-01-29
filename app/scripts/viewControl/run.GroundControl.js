@@ -1,26 +1,28 @@
 run.GroundControl = (function () {
-  'use strict';
+    'use strict';
 
-  return run.ViewControl.extend({
+    return run.ViewControl.extend({
 
-    defaults: {
-      mainModel: null,
-      model: null
-    },
+        defaults: {
+            mainModel: null,
+            model: null,
+            ctx: null
+        },
 
-    initialize: function (ctx, model) {
-      this.model = model;
-      this.mainModel = run.MainModel;
-      this.model.set('ctx', ctx);
-      this.initSetting();
-    },
+        initialize: function (ctx, model) {
+            this.model = model;
+            this.ctx = ctx;
+            this.mainModel = run.MainModel;
 
-    initSetting: function () {
-      this.model.addGround('type');
-    },
+            this.initSetting();
+        },
 
-    update: function () {
+        initSetting: function () {
+            this.model.addGround('type');
+        },
 
-    }
-  })
+        update: function () {
+
+        }
+    })
 })();
