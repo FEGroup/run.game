@@ -1,5 +1,5 @@
 run.MainModel = (function () {
-    return run.Model.extend({
+    return run.Class.extend({
 
         defaults: {
             speed: 0,

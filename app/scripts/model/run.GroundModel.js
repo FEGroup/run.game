@@ -15,6 +15,7 @@ run.GroundModel = (function () {
             stageEndX: 0
         },
 
+
         initialize: function (model) {
             this.model = model;
         },
