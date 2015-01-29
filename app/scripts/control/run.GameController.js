@@ -76,7 +76,7 @@ run.GameController = (function () {
             /**
              * 간 거리에 따라 Level set
              * Level에 따른 스피드 set
-             * 스피드가 곧 거리 - 총 거리 = 현재 거리 + 스피드
+             * 스피드가 곧 거리 : 총 거리 = 현재 거리 + 스피드
              * score는 거리 * x로 구해도 될 듯
              */
         },

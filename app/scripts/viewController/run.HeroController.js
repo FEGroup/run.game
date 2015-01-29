@@ -70,7 +70,7 @@ run.HeroController = (function () {
                     while(i < this.terrainMap.length){
                         dest = this.terrainMap[i].terrain;
 
-                        if (dest.x + dest.width < rect.x || dest.x > rect.x + rect.width / 2){
+                        if (dest.x + dest.width < rect.x - rect.width / 2 || dest.x > rect.x + rect.width / 2){
                             i++;
                             continue;
                         }
@@ -78,6 +78,11 @@ run.HeroController = (function () {
                             this.setPoint(null, dest.y);
                             this.setValue('yVel', 0);
                             this.setMode(this.heroModel.MODE.R_MODE);
+
+                            break;
+                        } else if (rect.y - rect.height > dest.y && rect.y - rect.height <= dest.y + dest.height) {
+                            this.setPoint(null, dest.y + dest.height);
+                            this.setValue('yVel', 0);
 
                             break;
                         }
@@ -95,6 +100,17 @@ run.HeroController = (function () {
                      * 2. 떨어지면서 그라운드 체크
                      * 3. 스테이지 아랫부분을 벗어나면 엔딩
                      */
+                    var i = 0,
+                        rect = {x: this.heroModel.get('x'), y: this.heroModel.get('y') + this.heroModel.get('yVel'), width: this.heroModel.get('width'), height: this.heroModel.get('height')},
+                        dest = null;
+
+                    while(i < this.terrainMap.length) {
+                        dest = this.terrainMap[i].terrain;
+
+                        if (dest.x + dest.width < rect.x - rect.width / 2 || dest.x > rect.x + rect.width / 2) {
+                            i++;
+                        }
+                    }
                     break;
                 case this.heroModel.MODE.D_MODE:
                     break;
