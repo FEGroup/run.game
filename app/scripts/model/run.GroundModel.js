@@ -1,6 +1,6 @@
 run.GroundModel = (function () {
 
-  return run.Model.extend({
+  return run.Class.extend({
     defaults: {
       TYPE: {
         BOTTOM: 0,

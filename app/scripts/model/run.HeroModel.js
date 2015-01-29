@@ -1,6 +1,6 @@
 run.HeroModel = (function () {
 
-    return run.Model.extend({
+    return run.Class.extend({
 
         defaults: {
             x: 0,
