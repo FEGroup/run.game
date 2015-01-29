@@ -5,10 +5,8 @@ run.HeroModel = (function () {
         defaults: {
             x: 0,
             y: 0,
-            name: '',
             currentFrame: 0,
             totalFrames: 0,
-            ctx: null,
             scale: 1,
             xVel: 5,
             yVel: 0,
@@ -29,10 +27,7 @@ run.HeroModel = (function () {
             if (this.currentFrame >= this.totalFrames) {
                 this.currentFrame = 0;
             }
-        },
-
-        getSrc: function (mode, name) {
-            return run.Sources[name].frames[mode];
         }
+
     });
 })();

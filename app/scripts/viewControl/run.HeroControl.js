@@ -4,7 +4,11 @@ run.HeroControl = (function () {
     return run.ViewControl.extend({
 
         defaults: {
-            _hero: null
+            hero: null,
+            model: null,
+            ctx: null,
+            name: '',
+            src: null
         },
 
         /**
@@ -14,10 +18,11 @@ run.HeroControl = (function () {
          */
         initialize: function (ctx, model) {
             this.model = model;
-            this._hero = new run.Hero(this.model);
+            this.hero = new run.Hero(this.model);
+            this.ctx = ctx;
+            this.name = 'hero';
+            this.src = run.Sources[this.name];
 
-            this.setValue('ctx', ctx);
-            this.setValue('name', 'hero');
             this.setValue('currentFrame', 0);
             this.setValue('scale', 0.5);
             this.setPoint(100, 100);
@@ -30,7 +35,7 @@ run.HeroControl = (function () {
 
         setMode: function (mode) {
             this.setValue('mode', mode);
-            this.setValue('totalFrames', this.model.getSrc(this.model.get('mode'), this.model.get('name')).length);
+            this.setValue('totalFrames', this.src.frames[this.model.mode].length);
         },
 
         initFrame: function () {
@@ -45,8 +50,8 @@ run.HeroControl = (function () {
                     /**
                      * 1. 그라운드의 밑 부분 이 캐릭터 좌표상 위에 있을 때 캐릭터의 상체가 그 위로 올라갔는지(뚫고 올라갔는지 체크)
                      *    올라갔다면 y좌표를 그라운드 하단에 맞추고 yVel을 +값으로 셋팅
-                     * 2. 그라운드가 이 캐릭터 x좌표에 포함되어 있을 때 그라운드 윗부분보다 케릭터가 높게 있다면
-                     *    윗 부분에 닿았는지 체크 후 닿았다면 해당 좌표에서 run
+                     * 2. 그라운드가 이 캐릭터 범위에 포함되어 있을 때 그라운드 윗부분보다 케릭터가 높게 있다면
+                     *    윗 부분에 닿았는지 체크 후 닿았다면 R_MODE로 변경
                      */
                     this.setPoint(null, this.model.get('y') + this.model.get('yVel'));
 
@@ -70,7 +75,8 @@ run.HeroControl = (function () {
             }
 
 
-            this._hero.draw();
+            this.hero.draw(this.ctx, this.src);
+
             this.model.nextFrame();
         },
 

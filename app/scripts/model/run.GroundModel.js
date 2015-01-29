@@ -18,6 +18,7 @@ run.GroundModel = (function () {
     initialize: function (model) {
       this.model = model;
     },
+
     addGround: function(type, option) {
       var ground, mapObj;
       this.currentID++;
@@ -51,9 +52,12 @@ run.GroundModel = (function () {
     },
 
     getCurrentX: function(id) {
-      //this.gMap.every(function(obj){
-      //  obj.
-      //}, this);
+      var i = 0;
+      while(i < this.gMap.length) {
+        if (this.gMap[i].id === id) {
+          return this.gMap[i].x;
+        }
+      }
     }
   });
 
