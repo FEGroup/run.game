@@ -1,6 +1,6 @@
 run.GroundModel = (function () {
 
-    return run.Model.extend({
+    return run.Class.extend({
         defaults: {
             TYPE: {
                 BOTTOM: 0,
@@ -11,45 +11,26 @@ run.GroundModel = (function () {
             },
             gMap: [],
             currentID: 0,
+            startX: 0,
             endX: 0,
-            stageEndX: 0
-        },
-
-
-        initialize: function (model) {
-            this.model = model;
-        },
-
-        addGround: function (type, option) {
-            var ground, mapObj;
-            this.currentID++;
-
-            switch (type) {
-                case this.TYPE.BOTTOM:
-                    ground = new run.Ground(this.model, type, this.currentID);
-
-                    mapObj = {
-                        ground: ground,
-                        id: this.currentID,
-                        x: this.endX
-                    };
-
-                    this.endX += ground.width;
-                    break;
-                case this.TYPE.SECOND:
-
-                    break;
-                case this.TYPE.THIRD:
-
-                    break;
-                case this.TYPE.CLIFF:
-
-                    break;
-                case this.TYPE.TRAP:
-
-                    break;
+            stageEndX: 0,
+            Events: {
+                CHANGE: 'ground_change',
+                REMOVE: 'ground_remove'
             }
-            this.gMap.push(mapObj);
+        },
+
+
+        initialize: function () {
+        },
+
+        addGround: function(obj){
+            if (obj === null) {
+                return;
+            }
+            this.currentID++;
+            this.gMap.push(obj);
+            this.dispatchEvent(new Event(this.Events.CHANGE));
         },
 
         getCurrentX: function (id) {

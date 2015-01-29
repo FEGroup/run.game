@@ -1,4 +1,4 @@
-run.GameControl = (function () {
+run.GameController = (function () {
     'use strict';
 
     return run.Class.extend({
@@ -30,12 +30,12 @@ run.GameControl = (function () {
         },
 
         initGround: function () {
-            this._groundControl = new run.GroundControl(this._stage.getContext(), new run.GroundModel());
+            this._groundControl = new run.GroundController(this._stage.getContext(), new run.GroundModel());
             this.oStackCollection.add(this._groundControl);
         },
 
         initHero: function () {
-            this._oHeroControl = new run.HeroControl(this._stage.getContext(), new run.HeroModel());
+            this._oHeroControl = new run.HeroController(this._stage.getContext(), new run.HeroModel());
             this.oStackCollection.add(this._oHeroControl);
         },
 

@@ -1,18 +1,22 @@
 /* jshint devel:true */
-(function () {
+var app = (function () {
     'use strict';
 
-    run.init = function (id) {
+    var initRunGame = function (id) {
         var el = document.getElementById(id);
         var ctx = el.getContext('2d');
 
         var oStage = new run.Stage(ctx);
-
-        new run.GameControl(oStage);
+        new run.GameController(oStage);
     };
 
-    run.PreLoader.load(function () {
-        run.init('_stage');
-    });
+    return {
+        initRunGame : function () {
+            initRunGame('_stage');
+        },
 
+        start : function(){
+            run.PreLoader.load(this.initRunGame);
+        }
+    }
 })();

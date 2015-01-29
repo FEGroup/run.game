@@ -12,7 +12,7 @@ run.Sources = (function () {
             imageObj: null
         },
 
-        ground: {
+        bottomGround: {
             img: 'img/ground.png',
             imageObj: null
         },

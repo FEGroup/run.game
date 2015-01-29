@@ -13,7 +13,8 @@ run.Config = (function () {
                 SECOND: 'second',
                 THIRD: 'third',
                 CLIFF: 'cliff'
-            }
+            },
+            GROUND_BOTTOM_Y: 250
         }
     });
 
