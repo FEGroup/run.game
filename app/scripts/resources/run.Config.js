@@ -6,9 +6,9 @@ run.Config = (function () {
             STAGE_WIDTH: 600,
             STAGE_HEIGHT: 300,
             FPS : 30,
-            GRAVITY : 5,
-            INIT_JUMP_VELOCITY : -50,
-            GROUND_BOTTOM_Y: 250
+            GRAVITY : 8,
+            INIT_JUMP_VELOCITY : -40,
+            TERRAIN_BOTTOM_Y: 250
         }
     });
 

@@ -6,9 +6,9 @@ run.HeroController = (function () {
         defaults: {
             hero: null,
             heroModel: null,
-            groundModel: null,
+            terrainModel: null,
             ctx: null,
-            groundMap: null,
+            terrainMap: null,
             name: '',
             src: null
         },
@@ -20,8 +20,8 @@ run.HeroController = (function () {
          */
         initialize: function (ctx, mc) {
             this.heroModel = mc.getModel(mc.MODEL.HERO);
-            this.groundModel = mc.getModel(mc.MODEL.GROUND);
-            this.groundMap = this.groundModel.get('gMap');
+            this.terrainModel = mc.getModel(mc.MODEL.TERRAIN);
+            this.terrainMap = this.terrainModel.get('gMap');
             this.hero = new run.Hero(this.heroModel);
             this.ctx = ctx;
 
@@ -54,7 +54,6 @@ run.HeroController = (function () {
         },
 
         update: function () {
-            var characterGround = 100;
             switch (this.heroModel.get('mode')) {
                 case this.heroModel.MODE.J_MODE:
                     this.setValue('yVel', this.heroModel.get('yVel') + run.Config.get('GRAVITY'));
@@ -68,8 +67,8 @@ run.HeroController = (function () {
                         rect = {x: this.heroModel.get('x'), y: this.heroModel.get('y') + this.heroModel.get('yVel'), width: this.heroModel.get('width'), height: this.heroModel.get('height')},
                         dest = null;
 
-                    while(i < this.groundMap.length){
-                        dest = this.groundMap[i].ground;
+                    while(i < this.terrainMap.length){
+                        dest = this.terrainMap[i].terrain;
 
                         if (dest.x + dest.width < rect.x || dest.x > rect.x + rect.width / 2){
                             i++;

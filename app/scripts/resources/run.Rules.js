@@ -19,15 +19,15 @@ run.Rules = (function(){
 
         defaults : {
             MINIMUM_CREATE_DIS: 60,
-            GROUND_MAP_GROUP: [
+            TERRAIN_MAP_GROUP: [
                 [0, 0, 0, 0, 0], [0, 3, 0, 0], [0, 0, 4, 0, 0, 4, 0, 0]
             ],
 
-            AVAILABLE_GROUNDS: [
+            AVAILABLE_TERRAINS: [
                 [0, 3], [0, 1, 2, 3], [0, 1, 2, 3], [0, 1, 2, 3], [0, 1, 2, 3], [0, 1, 2, 3], [0, 1, 2, 3]
             ],
 
-            SPEED_OF_LEVEL: [6, 8, 10, 13, 16, 20, 22]
+            SPEED_OF_LEVEL: [15, 13, 17, 25, 30, 40, 50]
         }
     });
 

@@ -1,4 +1,4 @@
-run.Ground = (function () {
+run.Terrain = (function () {
     'use strict';
 
     return run.View.extend({
@@ -15,7 +15,7 @@ run.Ground = (function () {
 
         /**
          * @constructor
-         * @param model GroundModel
+         * @param model TerrainModel
          * @param type  그라운드 타입(땅, 장애물, 낭떠러지)
          * @param id    id
          */
@@ -26,7 +26,7 @@ run.Ground = (function () {
 
             switch (type) {
                 case this.model.TYPE.BOTTOM:
-                    this.image = run.Sources.bottomGround.imageObj;
+                    this.image = run.Sources.bottomTerrain.imageObj;
                     this.width = this.image.width;
                     this.height = this.image.height;
                     break;

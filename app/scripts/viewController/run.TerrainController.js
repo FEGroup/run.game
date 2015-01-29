@@ -1,4 +1,4 @@
-run.GroundController = (function () {
+run.TerrainController = (function () {
     'use strict';
 
     return run.ViewController.extend({
@@ -13,7 +13,7 @@ run.GroundController = (function () {
 
         initialize: function (ctx, mc) {
             this.ctx = ctx;
-            this.model = mc.getModel(mc.MODEL.GROUND);
+            this.model = mc.getModel(mc.MODEL.TERRAIN);
             this.mainModel = mc.getModel(mc.MODEL.MAIN);;
             this.typeObj = this.model.get('TYPE');
             this.maps = this.model.get('gMap');
@@ -21,24 +21,24 @@ run.GroundController = (function () {
         },
 
         initSetting: function () {
-            this.checkGround();
+            this.checkTerrain();
         },
 
-        createGround: function (type, option) {
-            var ground, mapObj, id = this.model.get('currentID');
+        createTerrain: function (type, option) {
+            var terrain, mapObj, id = this.model.get('currentID');
 
             switch (type) {
                 case this.typeObj.BOTTOM:
-                    ground = new run.Ground(this.model, type, id);
+                    terrain = new run.Terrain(this.model, type, id);
 
                     mapObj = {
-                        ground: ground,
+                        terrain: terrain,
                         id: id,
                         x: this.model.get('endX'),
-                        y: run.Config.GROUND_BOTTOM_Y
+                        y: run.Config.TERRAIN_BOTTOM_Y
                     };
 
-                    this.model.set('endX', this.model.get('endX') + ground.width);
+                    this.model.set('endX', this.model.get('endX') + terrain.width);
                     break;
                 case this.typeObj.SECOND:
 
@@ -47,16 +47,16 @@ run.GroundController = (function () {
 
                     break;
                 case this.typeObj.CLIFF:
-                    ground = new run.Ground(this.model, type, id);
+                    terrain = new run.Terrain(this.model, type, id);
 
                     mapObj = {
-                        ground: ground,
+                        terrain: terrain,
                         id: id,
                         x: this.model.get('endX'),
-                        y: run.Config.GROUND_BOTTOM_Y
+                        y: run.Config.TERRAIN_BOTTOM_Y
                     };
 
-                    this.model.set('endX', this.model.get('endX') + ground.width);
+                    this.model.set('endX', this.model.get('endX') + terrain.width);
                     break;
                 case this.typeObj.TRAP:
 
@@ -69,28 +69,24 @@ run.GroundController = (function () {
         /**
          * 그라운드를 생성할 시기인지 판단해서 그라운드 그룹을 가져온다.
          */
-        checkGround: function () {
+        checkTerrain: function () {
             if (this.model.get('endX') - this.mainModel.get('speed') <= run.Config.STAGE_WIDTH) {
                 var i = 0,
-                    availGroundArr = run.Rules.AVAILABLE_GROUNDS[this.mainModel.get('level')],
-                    targetArr = run.Rules.GROUND_MAP_GROUP[Math.floor(Math.random() * availGroundArr.length)];
+                    availTerrainArr = run.Rules.AVAILABLE_TERRAINS[this.mainModel.get('level')],
+                    targetArr = run.Rules.TERRAIN_MAP_GROUP[Math.floor(Math.random() * availTerrainArr.length)];
 
                 while (i < targetArr.length) {
-                    this.model.addGround(this.createGround(targetArr[i]));
+                    this.model.addTerrain(this.createTerrain(targetArr[i]));
                     i++;
                 }
-                this.checkGround();
+                this.checkTerrain();
             }
-        },
-
-        removeGround: function(target) {
-            this.maps.splice(this.maps.indexOf(target), 1);
         },
 
         update: function () {
             var i = 0, target, speed = this.mainModel.get('speed');
 
-            this.checkGround();
+            this.checkTerrain();
 
             this.model.set('startX', this.model.get('startX') - speed);
             this.model.set('endX', this.model.get('endX') - speed);
@@ -98,11 +94,11 @@ run.GroundController = (function () {
             while (i < this.maps.length) {
                 target = this.maps[i];
                 target.x -= speed;
-                if (target.x + target.ground.width <= 0) {
-                    this.removeGround(target);
+                if (target.x + target.terrain.width <= 0) {
+                    this.model.removeTerrain(target);
                     continue;
                 }
-                target.ground.draw(this.ctx, target.x, target.y);
+                target.terrain.draw(this.ctx, target.x, target.y);
                 i++;
             }
         }

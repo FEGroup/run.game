@@ -3,7 +3,7 @@ run.ModelCollection = (function () {
 
         defaults: {
             MODEL: {
-                GROUND: 'ground',
+                TERRAIN: 'terrain',
                 HERO: 'hero',
                 MAIN: 'main'
             }
@@ -11,7 +11,7 @@ run.ModelCollection = (function () {
 
         initialize: function () {
             this[this.MODEL.MAIN] = new run.MainModel();
-            this[this.MODEL.GROUND] = new run.GroundModel();
+            this[this.MODEL.TERRAIN] = new run.TerrainModel();
             this[this.MODEL.HERO] = new run.HeroModel();
         },
 

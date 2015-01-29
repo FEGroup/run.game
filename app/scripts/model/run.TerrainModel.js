@@ -1,4 +1,4 @@
-run.GroundModel = (function () {
+run.TerrainModel = (function () {
 
     return run.Class.extend({
         defaults: {
@@ -15,8 +15,8 @@ run.GroundModel = (function () {
             endX: 0,
             stageEndX: 0,
             Events: {
-                CHANGE: 'ground_change',
-                REMOVE: 'ground_remove'
+                CHANGE: 'terrain_change',
+                REMOVE: 'terrain_remove'
             }
         },
 
@@ -24,7 +24,15 @@ run.GroundModel = (function () {
         initialize: function () {
         },
 
-        addGround: function(obj){
+        removeTerrain: function(target) {
+            if (target === null) {
+                return;
+            }
+            this.gMap.splice(this.maps.indexOf(target), 1);
+            this.dispatchEvent(new Event(this.Events.REMOVE));
+        },
+
+        addTerrain: function(obj){
             if (obj === null) {
                 return;
             }

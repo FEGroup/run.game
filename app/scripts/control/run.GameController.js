@@ -7,7 +7,7 @@ run.GameController = (function () {
             modelCollection: null,
             model: null,
             oHeroControl: null,
-            groundControl: null,
+            terrainControl: null,
             stage: null,
             oStackCollection: null
         },
@@ -28,7 +28,7 @@ run.GameController = (function () {
         },
 
         startGame: function(){
-            this.initGround();
+            this.initTerrain();
             this.initHero();
             this.initSetting();
             this.startAnimation();
@@ -43,9 +43,9 @@ run.GameController = (function () {
             this.model.set('speed', run.Rules.SPEED_OF_LEVEL[this.model.get('level')]);
         },
 
-        initGround: function () {
-            this.groundControl = new run.GroundController(this.stage.getContext(), this.modelCollection);
-            this.oStackCollection.add(this.groundControl);
+        initTerrain: function () {
+            this.terrainControl = new run.TerrainController(this.stage.getContext(), this.modelCollection);
+            this.oStackCollection.add(this.terrainControl);
         },
 
         initHero: function () {
