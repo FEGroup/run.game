@@ -1,4 +1,4 @@
-run.ViewControl = (function () {
+run.ViewController = (function () {
     'use strict';
 
     return run.Class.extend({

@@ -10,7 +10,6 @@ run.GroundModel = (function () {
         TRAP: 4
       },
       gMap: [],
-      ctx: null,
       currentID: 0,
       endX: 0
     },

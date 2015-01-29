@@ -8,7 +8,7 @@
 
         var oStage = new run.Stage(ctx);
 
-        new run.GameControl(oStage);
+        new run.GameController(oStage);
     };
 
     run.PreLoader.load(function () {

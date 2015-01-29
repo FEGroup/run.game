@@ -1,7 +1,7 @@
-run.HeroControl = (function () {
+run.HeroController = (function () {
     'use strict';
 
-    return run.ViewControl.extend({
+    return run.ViewController.extend({
 
         defaults: {
             hero: null,

@@ -1,7 +1,7 @@
-run.GroundControl = (function () {
+run.GroundController = (function () {
   'use strict';
 
-  return run.ViewControl.extend({
+  return run.ViewController.extend({
 
     defaults: {
       mainModel: null,
