@@ -25,6 +25,10 @@ var app = (function () {
         $('#_stop_btn').on('click', function(){
             oGameController.stop();
         });
+
+        $('#_pause_btn').on('click', function(){
+            oGameController.pause();
+        });
         $('#_resume_btn').on('click', function(){
             oGameController.resume();
         });

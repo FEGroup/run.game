@@ -14,7 +14,8 @@ run.GameController = (function () {
         },
 
         initialize: function (stage) {
-            this.stage = stage;
+            this.initStage(stage);
+
             this.modelCollection = new run.ModelCollection();
             this.oStackCollection = new run.StackCollection();
             this.model = this.modelCollection.getModel(this.modelCollection.MODEL.MAIN);
@@ -26,17 +27,21 @@ run.GameController = (function () {
             this.bindKeyEvents();
         },
 
-        addEvents: function(){
+        initStage : function(stage){
+            this.stage = stage;
             this.stage.on('enterframe', this.tick.bind(this));
+        },
+
+        addEvents: function(){
             this.heroModel.on('deadEvent', this.deadHero.bind(this));
 
-            this.model.on('change:distance', function(){
-                this.model.set('score', this.model.get('distance') * 10);
-            }.bind(this));
-
-            this.model.on('change:score', function(){
-                this.trigger('change:score');
-            }.bind(this));
+            this.model
+                .on('change:distance', function(){
+                    this.model.set('score', this.model.get('distance') * 10);
+                }.bind(this))
+                .on('change:score', function(){
+                    this.trigger('change:score');
+                }.bind(this));
         },
 
         start : function(){
@@ -46,11 +51,14 @@ run.GameController = (function () {
         },
 
         stop : function(){
-            this.stage.stop();
+
+        },
+
+        pause : function(){
+            this.stage.pause();
         },
 
         resume : function(){
-
             this.stage.animate();
         },
 

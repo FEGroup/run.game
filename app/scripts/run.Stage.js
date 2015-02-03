@@ -26,7 +26,7 @@ run.Stage = (function () {
             requestAnimationFrame(this.tick.bind(this));
         },
 
-        stop: function () {
+        pause: function () {
             this.isStarted = false;
         },
 
