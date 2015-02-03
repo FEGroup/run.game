@@ -2,6 +2,11 @@ run.Stage = (function () {
     'use strict';
 
     return run.Class.extend({
+
+        defaults : {
+            isStarted : true
+        },
+
         initialize: function (ctx) {
 
             this.ctx = ctx;
@@ -17,10 +22,19 @@ run.Stage = (function () {
 
         animate: function () {
             this.frameTime = this.startTime = (new Date()).getTime();
+            this.isStarted = true;
             requestAnimationFrame(this.tick.bind(this));
         },
 
+        stop: function () {
+            this.isStarted = false;
+        },
+
         tick: function () {
+
+            if(!this.isStarted){
+                return;
+            }
 
             var frameDuration = 1000 / run.Config.get('FPS');
             var now = (new Date()).getTime();

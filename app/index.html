@@ -31,9 +31,11 @@
       </div>
 
       <div>
+          <input type="button" id="_start_btn" value="start"/>
+          <input type="button" id="_stop_btn" value="stop"/>
+          <input type="button" id="_resume_btn" value="resume"/>
         <canvas id="_stage" width="600" height="300" style="border:1px solid #b4cefd;width:600px;height:300px;" tabindex="0"></canvas>
-
-          <input type="text" id="_score"/>
+        <input type="text" id="_score"/>
       </div>
 
       <div class="footer">
@@ -99,10 +101,11 @@
     <script src="scripts/view/run.View.js"></script>
     <script src="scripts/view/run.Terrain.js"></script>
     <script src="scripts/view/run.Hero.js"></script>
-    <script src="scripts/view/run.Bg.js"></script>
+    <script src="scripts/view/run.Background.js"></script>
 
     <script src="scripts/viewController/run.ViewController.js"></script>
     <script src="scripts/viewController/run.TerrainController.js"></script>
+    <script src="scripts/viewController/run.BackgroundController.js"></script>
     <script src="scripts/viewController/run.HeroController.js"></script>
 
     <script src="scripts/app.js"></script>

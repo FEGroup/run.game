@@ -19,7 +19,10 @@ run.Sources = (function () {
 
         bg: {
             img: 'img/bg.png',
-            imageObj: null
+            imageObj: null,
+            stages : [
+                [0, 0, 256, 256, 0, 0, 0]
+            ]
         }
     };
 })();

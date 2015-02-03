@@ -17,7 +17,17 @@ var app = (function () {
             $('#_score').val(oGameController.getScore());
         });
 
+        oGameController.start();
 
+        $('#_start_btn').on('click', function(){
+            oGameController.start();
+        });
+        $('#_stop_btn').on('click', function(){
+            oGameController.stop();
+        });
+        $('#_resume_btn').on('click', function(){
+            oGameController.resume();
+        });
     };
 
     return {

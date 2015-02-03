@@ -19,10 +19,11 @@ run.GameController = (function () {
             this.oStackCollection = new run.StackCollection();
             this.model = this.modelCollection.getModel(this.modelCollection.MODEL.MAIN);
             this.heroModel = this.modelCollection.getModel(this.modelCollection.MODEL.HERO);
+            this.initTerrain();
+            this.initHero();
 
             this.addEvents();
             this.bindKeyEvents();
-            this.startGame();
         },
 
         addEvents: function(){
@@ -38,11 +39,19 @@ run.GameController = (function () {
             }.bind(this));
         },
 
-        startGame: function(){
-            this.initTerrain();
-            this.initHero();
+        start : function(){
+
             this.initSetting();
             this.startAnimation();
+        },
+
+        stop : function(){
+            this.stage.stop();
+        },
+
+        resume : function(){
+
+            this.stage.animate();
         },
 
         getScore : function(){
