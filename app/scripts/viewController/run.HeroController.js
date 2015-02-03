@@ -122,13 +122,15 @@ run.HeroController = (function () {
                     this.setMode(this.heroModel.MODE.D_MODE);
                     result = true;
                     break;
-                } else if (this.heroModel.get('mode') === this.heroModel.MODE.R_MODE && terrain.type === this.terrainModel.TYPE.CLIFF) {
+                }
+                if (this.heroModel.get('mode') === this.heroModel.MODE.R_MODE && terrain.type === this.terrainModel.TYPE.CLIFF) {
                     this.setValue('yVel', 3);
                     this.setValue('currentFrame', 0);
                     this.setMode(this.heroModel.MODE.J_MODE);
                     result = true;
                     break;
                 }
+
                 i++
             }
             return result;
@@ -146,12 +148,24 @@ run.HeroController = (function () {
                         arr.push(terrain);
                     }
                 } else {
-
+                    if (this.AABB({x: rect.x - rect.width / 2, y: rect.y - rect.height, width: rect.width, height: rect.height}, terrain) === true) {
+                        arr.push(terrain);
+                    }
                 }
 
                 i++;
             }
             return arr;
+        },
+
+        AABB: function(a, b) {
+            if (a.x < b.x + b.width &&
+                a.x + a.width > b.x &&
+                a.y < b.y + b.height &&
+                a.height + a.y > b.y) {
+                return true;
+            }
+            return false;
         },
 
         jump: function () {
