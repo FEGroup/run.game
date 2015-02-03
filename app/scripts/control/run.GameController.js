@@ -28,6 +28,14 @@ run.GameController = (function () {
         addEvents: function(){
             this.stage.on('enterframe', this.tick.bind(this));
             this.heroModel.on('deadEvent', this.deadHero.bind(this));
+
+            this.model.on('change:distance', function(){
+                this.model.set('score', this.model.get('distance') * 10);
+            }.bind(this));
+
+            this.model.on('change:score', function(){
+                this.trigger('change:score');
+            }.bind(this));
         },
 
         startGame: function(){
@@ -35,6 +43,10 @@ run.GameController = (function () {
             this.initHero();
             this.initSetting();
             this.startAnimation();
+        },
+
+        getScore : function(){
+            return this.model.get('score');
         },
 
         startAnimation: function () {
@@ -86,6 +98,8 @@ run.GameController = (function () {
              * 스피드가 곧 거리 : 총 거리 = 현재 거리 + 스피드
              * score는 거리 * x로 구해도 될 듯
              */
+            var nDistance = this.model.get('distance');
+            this.model.set('distance', nDistance + this.model.get('speed'));
         },
 
         bindKeyEvents: function () {

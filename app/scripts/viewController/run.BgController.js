@@ -1,11 +1,11 @@
-run.Bg = (function () {
+run.BgController = (function () {
     'use strict';
 
     return run.Class.extend({
         defaults: {
             x: 0,
             y: 0,
-            _name: 'hero',
+            _name: 'bg',
             _currentFrame: 0,
             _ctx: null
         },
@@ -20,6 +20,7 @@ run.Bg = (function () {
             this._ctx.drawImage(src.imageObj,
                 src.frames[this._currentFrame][0], src.frames[this._currentFrame][1], src.frames[this._currentFrame][2], src.frames[this._currentFrame][3],
                 this.x, this.y, src.frames[this._currentFrame][2], src.frames[this._currentFrame][3]);
+
         },
 
         update: function () {

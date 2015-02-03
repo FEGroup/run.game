@@ -11,7 +11,13 @@ var app = (function () {
          */
 
         var oStage = new run.Stage(ctx);
-        new run.GameController(oStage);
+        var oGameController = new run.GameController(oStage);
+
+        oGameController.on('change:score', function(){
+            $('#_score').val(oGameController.getScore());
+        });
+
+
     };
 
     return {

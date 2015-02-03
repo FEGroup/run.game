@@ -105,6 +105,9 @@ run.Class = (function () {
 
         set : function(prop, val){
             this[prop] = val;
+
+            this.trigger('change:'+prop);
+            return this;
         },
 
         addEventListener: function (type, callback) {
@@ -138,6 +141,10 @@ run.Class = (function () {
         off: function (type, callback) {
             this.removeEventListener(type, callback);
             return this;
+        },
+
+        trigger : function(type, obj){
+            this.dispatchEvent(new Event(type), obj);
         },
 
         dispatchEvent: function (e) {
