@@ -47,6 +47,10 @@ run.HeroController = (function () {
         setMode: function (mode) {
             this.setValue('mode', mode);
             this.setValue('totalFrames', this.src.frames[this.heroModel.get('mode')].length);
+
+            if(mode === this.heroModel.MODE.D_MODE){
+                this.heroModel.trigger('deadEvent');
+            }
         },
 
         initFrame: function () {
