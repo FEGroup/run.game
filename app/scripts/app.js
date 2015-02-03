@@ -6,10 +6,6 @@ var app = (function () {
         var el = document.getElementById(id);
         var ctx = el.getContext('2d');
 
-        /**
-         * 도입부에 게임이 바로 시작하지 않고 UI가 있어야 함.
-         */
-
         var oStage = new run.Stage(ctx);
         var oGameController = new run.GameController(oStage);
 
@@ -17,31 +13,35 @@ var app = (function () {
             $('#_score').val(oGameController.getScore());
         });
 
-        oGameController.start();
-
-        $('#_start_btn').on('click', function(){
-            oGameController.start();
-        });
-        $('#_stop_btn').on('click', function(){
-            oGameController.stop();
-        });
-
-        $('#_pause_btn').on('click', function(){
-            oGameController.pause();
-        });
-        $('#_resume_btn').on('click', function(){
-            oGameController.resume();
-        });
+        return oGameController;
     };
 
     return {
+
+        initUi : function(oGameController){
+            $('#_start_btn').on('click', function(){
+                oGameController.start();
+            });
+            $('#_stop_btn').on('click', function(){
+                oGameController.stop();
+            });
+
+            $('#_pause_btn').on('click', function(){
+                oGameController.pause();
+            });
+            $('#_resume_btn').on('click', function(){
+                oGameController.resume();
+            });
+        },
+
         initRunGame : function () {
-            initRunGame('_stage');
+            var oGameController = initRunGame('_stage');
+            this.initUi(oGameController);
             //initRunGame('_stage2');
         },
 
         start : function(){
-            run.PreLoader.load(this.initRunGame);
+            run.PreLoader.load(this.initRunGame.bind(this));
         }
     }
 })();
