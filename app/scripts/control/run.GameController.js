@@ -13,17 +13,9 @@ run.GameController = (function () {
             oStackCollection: null
         },
 
+
         initialize: function (stage) {
             this.initStage(stage);
-
-            this.modelCollection = new run.ModelCollection();
-            this.oStackCollection = new run.StackCollection();
-            this.model = this.modelCollection.getModel(this.modelCollection.MODEL.MAIN);
-            this.heroModel = this.modelCollection.getModel(this.modelCollection.MODEL.HERO);
-            this.initTerrain();
-            this.initHero();
-
-            this.addEvents();
             this.bindKeyEvents();
         },
 
@@ -32,7 +24,16 @@ run.GameController = (function () {
             this.stage.on('enterframe', this.tick.bind(this));
         },
 
-        addEvents: function(){
+        initModels : function (){
+            this.modelCollection = new run.ModelCollection();
+            this.oStackCollection = new run.StackCollection();
+            this.model = this.modelCollection.getModel(this.modelCollection.MODEL.MAIN);
+            this.heroModel = this.modelCollection.getModel(this.modelCollection.MODEL.HERO);
+            this.initTerrain();
+            this.initHero();
+        },
+
+        setModelEvents: function(){
             this.heroModel.on('deadEvent', this.deadHero.bind(this));
 
             this.model
@@ -45,13 +46,16 @@ run.GameController = (function () {
         },
 
         start : function(){
-
-            this.initSetting();
+            this.stop();
             this.startAnimation();
         },
 
         stop : function(){
+            this.stage.stop();
 
+            this.initModels();
+            this.setModelEvents();
+            this.initSetting();
         },
 
         pause : function(){

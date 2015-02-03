@@ -4,6 +4,8 @@ run.Stage = (function () {
     return run.Class.extend({
 
         defaults : {
+            frameTime : null,
+            startTime : null,
             isStarted : true
         },
 
@@ -28,6 +30,12 @@ run.Stage = (function () {
 
         pause: function () {
             this.isStarted = false;
+        },
+
+        stop : function(){
+            this.isStarted = false;
+            this.startTime = 0;
+            this.clearContext();
         },
 
         tick: function () {
