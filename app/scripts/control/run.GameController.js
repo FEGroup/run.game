@@ -31,6 +31,7 @@ run.GameController = (function () {
             this.heroModel = this.modelCollection.getModel(this.modelCollection.MODEL.HERO);
             this.initTerrain();
             this.initHero();
+            this.setModelEvents();
         },
 
         setModelEvents: function(){
@@ -54,7 +55,7 @@ run.GameController = (function () {
             this.stage.stop();
 
             this.initModels();
-            this.setModelEvents();
+
             this.initSetting();
         },
 
@@ -159,20 +160,6 @@ run.GameController = (function () {
                     //this.moveRight = false;
                     break;
             }
-        },
-
-        changeDepth: function (obj1, obj2) {
-            var updateStack = this.updateStack;
-
-            var index1 = updateStack.indexOf(obj1), index2 = updateStack.indexOf(obj2), tm1, tm2;
-            if (index1 < 0 || index2 < 0) {
-                return;
-            }
-
-            tm1 = updateStack[index1];
-            tm2 = updateStack[index2];
-            updateStack[index2] = tm1;
-            updateStack[index1] = tm2;
         }
     });
 })();

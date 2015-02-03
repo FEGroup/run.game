@@ -6,7 +6,7 @@ run.StackCollection = (function () {
         },
 
         initialize: function () {
-
+            this.updateStack = [];
         },
 
         add: function (model) {
