@@ -24,6 +24,13 @@ run.HeroModel = (function () {
         initialize: function () {
         },
 
+        set: function(prop, val) {
+            this.__super__.set.call(this, prop, val);
+            if (prop === 'mode' && val === this.MODE.D_MODE) {
+                this.dispatchEvent(new Event('deadEvent'));
+            }
+        },
+
         nextFrame: function () {
             this.currentFrame++;
             if (this.currentFrame >= this.totalFrames) {

@@ -46,7 +46,7 @@ run.HeroController = (function () {
 
         setMode: function (mode) {
             this.setValue('mode', mode);
-            this.setValue('totalFrames', this.src.frames[this.heroModel.mode].length);
+            this.setValue('totalFrames', this.src.frames[this.heroModel.get('mode')].length);
         },
 
         initFrame: function () {
@@ -54,67 +54,35 @@ run.HeroController = (function () {
         },
 
         update: function () {
+            var rect = {
+                    x: this.heroModel.get('x'),
+                    y: this.heroModel.get('y') + this.heroModel.get('yVel'),
+                    width: this.heroModel.get('width') * this.heroModel.get('scale'),
+                    height: this.heroModel.get('height') * this.heroModel.get('scale')
+                },
+                candidateArr = this.getCollisionTerrain(rect);
+
             switch (this.heroModel.get('mode')) {
                 case this.heroModel.MODE.J_MODE:
                     this.setValue('yVel', this.heroModel.get('yVel') + run.Config.get('GRAVITY'));
-                    /**
-                     * 1. 그라운드의 밑 부분 이 캐릭터 좌표상 위에 있을 때 캐릭터의 상체가 그 위로 올라갔는지(뚫고 올라갔는지 체크)
-                     *    올라갔다면 y좌표를 그라운드 하단에 맞추고 yVel을 +값으로 셋팅
-                     * 2. 그라운드가 이 캐릭터 범위에 포함되어 있을 때 그라운드 윗부분보다 케릭터가 높게 있다면
-                     *    윗 부분에 닿았는지 체크 후 닿았다면 R_MODE로 변경
-                     */
-                    var i = 0,
-                        rect = {x: this.heroModel.get('x'), y: this.heroModel.get('y') + this.heroModel.get('yVel'), width: this.heroModel.get('width'), height: this.heroModel.get('height')},
-                        dest = null;
 
-                    while(i < this.terrainMap.length){
-                        dest = this.terrainMap[i].terrain;
-
-                        if (dest.x + dest.width < rect.x - rect.width / 2 || dest.x > rect.x + rect.width / 2){
-                            i++;
-                            continue;
-                        }
-                        if (rect.y > dest.y) {
-                            this.setPoint(null, dest.y);
-                            this.setValue('yVel', 0);
-                            this.setMode(this.heroModel.MODE.R_MODE);
-
-                            break;
-                        } else if (rect.y - rect.height > dest.y && rect.y - rect.height <= dest.y + dest.height) {
-                            this.setPoint(null, dest.y + dest.height);
-                            this.setValue('yVel', 0);
-
-                            break;
-                        }
-                        i++;
+                    if (this.proceedCollision(candidateArr) === false) {
+                        this.setPoint(null, this.heroModel.get('y') + this.heroModel.get('yVel'));
                     }
 
-
-                    this.setPoint(null, this.heroModel.get('y') + this.heroModel.get('yVel'));
-
+                    if (this.heroModel.get('y') > run.Config.get('STAGE_HEIGHT')) {
+                        this.setMode(this.heroModel.MODE.D_MODE);
+                    }
                     break;
+
                 case this.heroModel.MODE.R_MODE:
-
-                    /**
-                     * 1. 런모드일 경우 캐릭터 바닥에 그라운드가 있는지 없는지 체크 후 없다면 yVel을 0으로 셋팅하여 떨어뜨림
-                     * 2. 떨어지면서 그라운드 체크
-                     * 3. 스테이지 아랫부분을 벗어나면 엔딩
-                     */
-                    var i = 0,
-                        rect = {x: this.heroModel.get('x'), y: this.heroModel.get('y') + this.heroModel.get('yVel'), width: this.heroModel.get('width'), height: this.heroModel.get('height')},
-                        dest = null;
-
-                    while(i < this.terrainMap.length) {
-                        dest = this.terrainMap[i].terrain;
-
-                        if (dest.x + dest.width < rect.x - rect.width / 2 || dest.x > rect.x + rect.width / 2) {
-                            i++;
-                        }
-                    }
+                    this.proceedCollision(candidateArr);
                     break;
+
                 case this.heroModel.MODE.D_MODE:
                     break;
-                default :
+
+                default:
 
             }
 
@@ -122,6 +90,68 @@ run.HeroController = (function () {
             this.hero.draw(this.ctx, this.src);
 
             this.heroModel.nextFrame();
+        },
+
+        proceedCollision: function(terrainArr) {
+            var i = 0, terrain, result = false;
+
+            if (terrainArr === null) {
+                return;
+            }
+
+            while (i < terrainArr.length) {
+                terrain = terrainArr[i];
+
+                if (this.heroModel.get('mode') === this.heroModel.MODE.J_MODE && this.heroModel.get('yVel') >= 0) {
+                    // 땅 위에 닿은건지 체크 y좌표 + height값 사이에 있다면 땅위에 착지
+                    if (terrain.type === this.terrainModel.TYPE.BOTTOM ||
+                        terrain.type === this.terrainModel.TYPE.SECOND ||
+                        terrain.type === this.terrainModel.TYPE.THIRD) {
+
+                        this.setPoint(null, terrain.y);
+                        this.setValue('yVel', 0);
+                        this.setMode(this.heroModel.MODE.R_MODE);
+                        result = true;
+                    }
+                }
+
+                // 장애물에 부딪혔는지 체크 - TRAP이면 무조건 사망, R_MODE에서 CLIFF면 사망
+                if (terrain.type === this.terrainModel.TYPE.TRAP) {
+                    this.setValue('yVel', 3);
+                    this.setValue('currentFrame', 0);
+                    this.setMode(this.heroModel.MODE.D_MODE);
+                    result = true;
+                    break;
+                } else if (this.heroModel.get('mode') === this.heroModel.MODE.R_MODE && terrain.type === this.terrainModel.TYPE.CLIFF) {
+                    this.setValue('yVel', 3);
+                    this.setValue('currentFrame', 0);
+                    this.setMode(this.heroModel.MODE.J_MODE);
+                    result = true;
+                    break;
+                }
+                i++
+            }
+            return result;
+        },
+
+        getCollisionTerrain: function(rect){
+            var i = 0, terrain = null, arr = [];
+            while (i < this.terrainMap.length) {
+                terrain = this.terrainMap[i].terrain;
+                if (terrain.type === this.terrainModel.TYPE.BOTTOM ||
+                    terrain.type === this.terrainModel.TYPE.SECOND ||
+                    terrain.type === this.terrainModel.TYPE.THIRD || terrain.type === this.terrainModel.TYPE.CLIFF) {
+
+                    if (rect.x >= terrain.x && rect.x < terrain.x + terrain.width && rect.y >= terrain.y && rect.y <= terrain.y + terrain.height) {
+                        arr.push(terrain);
+                    }
+                } else {
+
+                }
+
+                i++;
+            }
+            return arr;
         },
 
         jump: function () {

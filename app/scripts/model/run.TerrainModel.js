@@ -28,7 +28,7 @@ run.TerrainModel = (function () {
             if (target === null) {
                 return;
             }
-            this.gMap.splice(this.maps.indexOf(target), 1);
+            this.gMap.splice(this.gMap.indexOf(target), 1);
             this.dispatchEvent(new Event(this.Events.REMOVE));
         },
 

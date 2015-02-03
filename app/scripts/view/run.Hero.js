@@ -20,11 +20,12 @@ run.Hero = (function () {
     },
 
     draw: function (ctx, obj) {
-        var pos = obj.frames[this.model.mode][this.model.get('currentFrame')],
+        var pos = obj.frames[this.model.get('mode')][this.model.get('currentFrame')],
             x = this.model.get('x'),
             y = this.model.get('y'),
-            scale = this.model.get('scale'),
-            rect = {x: x, y: y, w: pos[2] * scale, h: pos[3] * scale};
+            scale = this.model.get('scale');
+
+        var rect = {x: x, y: y, w: pos[2] * scale, h: pos[3] * scale};
 
         // image center is bottom_center
         ctx.drawImage(obj.imageObj,

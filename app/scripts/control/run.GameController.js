@@ -6,6 +6,7 @@ run.GameController = (function () {
             startTime: 0,
             modelCollection: null,
             model: null,
+            heroModel: null,
             oHeroControl: null,
             terrainControl: null,
             stage: null,
@@ -17,6 +18,7 @@ run.GameController = (function () {
             this.modelCollection = new run.ModelCollection();
             this.oStackCollection = new run.StackCollection();
             this.model = this.modelCollection.getModel(this.modelCollection.MODEL.MAIN);
+            this.heroModel = this.modelCollection.getModel(this.modelCollection.MODEL.HERO);
 
             this.addEvents();
             this.bindKeyEvents();
@@ -25,6 +27,7 @@ run.GameController = (function () {
 
         addEvents: function(){
             this.stage.on('enterframe', this.tick.bind(this));
+            this.heroModel.on('deadEvent', this.deadHero.bind(this));
         },
 
         startGame: function(){
@@ -51,6 +54,10 @@ run.GameController = (function () {
         initHero: function () {
             this.oHeroControl = new run.HeroController(this.stage.getContext(), this.modelCollection);
             this.oStackCollection.add(this.oHeroControl);
+        },
+
+        deadHero: function() {
+            this.model.set('speed', 0);
         },
 
         tick: function () {
