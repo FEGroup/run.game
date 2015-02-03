@@ -25,10 +25,10 @@ run.HeroController = (function () {
             this.hero = new run.Hero(this.heroModel);
             this.ctx = ctx;
 
-            this.initSetting();
+            this._initSetting();
         },
 
-        initSetting: function () {
+        _initSetting: function () {
             this.name = 'hero';
             this.src = run.Sources[this.name];
             this.scale = 0.5;

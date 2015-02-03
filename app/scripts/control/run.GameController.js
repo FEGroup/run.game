@@ -13,7 +13,6 @@ run.GameController = (function () {
             oStackCollection: null
         },
 
-
         initialize: function (stage) {
             this.initStage(stage);
             this.bindKeyEvents();
@@ -21,21 +20,28 @@ run.GameController = (function () {
 
         initStage : function(stage){
             this.stage = stage;
-            this.stage.on('enterframe', this.tick.bind(this));
+            this.stage.on('enterframe', this._tick.bind(this));
         },
 
         initModels : function (){
             this.modelCollection = new run.ModelCollection();
             this.oStackCollection = new run.StackCollection();
-            this.model = this.modelCollection.getModel(this.modelCollection.MODEL.MAIN);
-            this.heroModel = this.modelCollection.getModel(this.modelCollection.MODEL.HERO);
-            this.initTerrain();
-            this.initHero();
+
+            this.model = new run.MainModel();
+            this.heroModel = new run.HeroModel();
+
+            this.modelCollection
+                .set('main', this.model)
+                .set('hero', this.heroModel)
+                .set('terrain', new run.TerrainModel());
+
+            this._initTerrain();
+            this._initHero();
             this.setModelEvents();
         },
 
         setModelEvents: function(){
-            this.heroModel.on('deadEvent', this.deadHero.bind(this));
+            this.heroModel.on('deadEvent', this._onDeadHero.bind(this));
 
             this.model
                 .on('change:distance', function(){
@@ -48,15 +54,13 @@ run.GameController = (function () {
 
         start : function(){
             this.stop();
-            this.startAnimation();
+            this._startAnimation();
         },
 
         stop : function(){
             this.stage.stop();
-
             this.initModels();
-
-            this.initSetting();
+            this._initSetting();
         },
 
         pause : function(){
@@ -71,49 +75,49 @@ run.GameController = (function () {
             return this.model.get('score');
         },
 
-        startAnimation: function () {
+        _startAnimation: function () {
             this.stage.animate();
         },
 
-        initSetting: function(){
+        _initSetting: function(){
             this.model.set('level', 0);
             this.model.set('speed', run.Rules.SPEED_OF_LEVEL[this.model.get('level')]);
         },
 
-        initTerrain: function () {
+        _initTerrain: function () {
             this.terrainControl = new run.TerrainController(this.stage.getContext(), this.modelCollection);
             this.oStackCollection.add(this.terrainControl);
         },
 
-        initHero: function () {
+        _initHero: function () {
             this.oHeroControl = new run.HeroController(this.stage.getContext(), this.modelCollection);
             this.oStackCollection.add(this.oHeroControl);
         },
 
-        deadHero: function() {
+        _onDeadHero: function() {
             this.model.set('speed', 0);
         },
 
-        tick: function () {
-            var oStackCollection = this.oStackCollection;
+        _initFrames : function (){
+            this.oStackCollection.each(function (item){
+                item.initFrame();
+            });
+        },
 
+        _updateFrames : function(){
+            this.oStackCollection.each(function (item) {
+                item.update();
+            });
+        },
+
+        _tick: function () {
             this.stage.clearContext();
 
             if (this.stage.startTime === 0) {
-                oStackCollection.each(function (item) {
-                    if (item.initFrame && typeof item.initFrame === 'function') {
-                        item.initFrame();
-                    }
-                });
-
-                return;
+                return this._initFrames();
             }
 
-            oStackCollection.each(function (item) {
-                if (item.update && typeof item.update === 'function') {
-                    item.update();
-                }
-            });
+            this._updateFrames();
             /**
              * 간 거리에 따라 Level set
              * Level에 따른 스피드 set

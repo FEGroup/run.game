@@ -10,7 +10,6 @@ run.Stage = (function () {
         },
 
         initialize: function (ctx) {
-
             this.ctx = ctx;
         },
 
@@ -38,19 +37,20 @@ run.Stage = (function () {
             this.clearContext();
         },
 
-        tick: function () {
+        getVisibleTime : function(){
+            var frameDuration = 1000 / run.Config.get('FPS');
+            var now = (new Date()).getTime();
+            var elapsedTime = now - this.frameTime;
+            return Math.floor(elapsedTime / frameDuration);
+        },
 
+        tick: function () {
             if(!this.isStarted){
                 return;
             }
 
-            var frameDuration = 1000 / run.Config.get('FPS');
-            var now = (new Date()).getTime();
-            var elapsedTime = now - this.frameTime;
-            var visibleTime = Math.floor(elapsedTime / frameDuration);
-
-            if (visibleTime > 0) {
-                this.frameTime = now;
+            if (this.getVisibleTime() > 0) {
+                this.frameTime = (new Date()).getTime();
                 this.dispatchEvent(new Event('enterframe'));
             }
 

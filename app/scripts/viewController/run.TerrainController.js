@@ -17,10 +17,10 @@ run.TerrainController = (function () {
             this.mainModel = mc.getModel(mc.MODEL.MAIN);;
             this.typeObj = this.model.get('TYPE');
             this.maps = this.model.get('gMap');
-            this.initSetting();
+            this._initSetting();
         },
 
-        initSetting: function () {
+        _initSetting: function () {
             this.checkTerrain();
         },
 

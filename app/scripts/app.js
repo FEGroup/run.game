@@ -37,7 +37,7 @@ var app = (function () {
     return {
         initRunGame : function () {
             initRunGame('_stage');
-            initRunGame('_stage2');
+            //initRunGame('_stage2');
         },
 
         start : function(){

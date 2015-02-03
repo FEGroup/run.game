@@ -10,9 +10,7 @@ run.ModelCollection = (function () {
         },
 
         initialize: function () {
-            this[this.MODEL.MAIN] = new run.MainModel();
-            this[this.MODEL.TERRAIN] = new run.TerrainModel();
-            this[this.MODEL.HERO] = new run.HeroModel();
+
         },
 
         getModel: function(type) {
