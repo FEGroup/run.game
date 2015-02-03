@@ -31,12 +31,10 @@ run.HeroController = (function () {
         _initSetting: function () {
             this.name = 'hero';
             this.src = run.Sources[this.name];
-            this.scale = 0.5;
             this.setValue('currentFrame', 0);
-            this.setValue('scale', this.scale);
-            this.setPoint(100, 100);
-            this.setValue('width', run.Sources.hero.imageObj.height * this.scale);
-            this.setValue('height', run.Sources.hero.imageObj.height * this.scale);
+            this.setPoint(100, -50);
+            this.setValue('width', run.Sources.hero.width);
+            this.setValue('height', run.Sources.hero.height);
             this.setMode(this.heroModel.MODE.J_MODE);
         },
 
@@ -178,6 +176,14 @@ run.HeroController = (function () {
                 this.setValue('yVel', run.Config.get('INIT_JUMP_VELOCITY'));
                 this.setMode(this.heroModel.MODE.J_MODE);
             }
+        },
+
+        moveRight : function(){
+            this.setValue('x', this.heroModel.get('x') + this.heroModel.get('xVel'));
+        },
+
+        moveLeft : function(){
+            this.setValue('x', this.heroModel.get('x') - this.heroModel.get('xVel'));
         },
 
         setPoint: function (lx, ly) {

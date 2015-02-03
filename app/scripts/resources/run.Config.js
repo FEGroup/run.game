@@ -5,10 +5,10 @@ run.Config = (function () {
         defaults : {
             STAGE_WIDTH: 600,
             STAGE_HEIGHT: 300,
-            FPS : 30,
+            FPS : 25,
             GRAVITY : 8,
             INIT_JUMP_VELOCITY : -40,
-            TERRAIN_BOTTOM_Y: 250
+            TERRAIN_BOTTOM_Y: 300 - 40
         }
     });
 

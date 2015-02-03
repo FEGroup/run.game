@@ -48,6 +48,16 @@ run.Terrain = (function () {
             }
         },
 
+        createPattern : function(){
+            var elCanvas = document.createElement('canvas');
+            elCanvas.width = 25;
+            elCanvas.height = 40;
+
+            var patternCtx = elCanvas.getContext('2d');
+            patternCtx.drawImage(this.image , (-450), -370, 1081, 1445);
+            this.pattern = elCanvas;
+        },
+
         draw: function (ctx, x, y) {
             this.x = x;
             this.y = y;
@@ -55,7 +65,17 @@ run.Terrain = (function () {
                 return;
             }
 
-            ctx.drawImage(this.image, x, y, this.width, this.height);
+            if(!this.pattern){
+                this.createPattern();
+            }
+
+            ctx.fillStyle = ctx.createPattern(this.pattern, "repeat");
+
+            ctx.save();
+            ctx.translate(-x, -y);
+            ctx.fillRect(x * 2, y * 2, this.width, this.height);
+            ctx.translate(-x, -y);
+            ctx.restore();
         }
 
     });

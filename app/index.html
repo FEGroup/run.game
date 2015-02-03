@@ -20,6 +20,17 @@
     <!-- build:js scripts/vendor/modernizr.js -->
     <script src="../bower_components/modernizr/modernizr.js"></script>
     <!-- endbuild -->
+
+      <style>
+          canvas,
+          img {
+              image-rendering: crisp-edges;
+              image-rendering: -moz-crisp-edges;
+              image-rendering: -webkit-optimize-contrast;
+              image-rendering: optimize-contrast;
+              -ms-interpolation-mode: nearest-neighbor;
+          }
+      </style>
   </head>
   <body>
     <!--[if lt IE 10]>

@@ -142,12 +142,12 @@ run.GameController = (function () {
                     this.oHeroControl.jump();
                     break;
                 case 37 :// left
-                    //this.moveLeft = true;
+                    this.moveLeft = true;
                     break;
                 case 38 :// up
                     break;
                 case 39 :// right
-                    //this.moveRight = true;
+                    this.moveRight = true;
                     break;
                 case 40 :// down
                     break;
@@ -157,11 +157,11 @@ run.GameController = (function () {
         _keyUpHandler: function (e) {
             switch (e.keyCode) {
                 case 37 :
-                    //this.moveLeft = false;
+                    this.moveLeft = false;
                     break;
                 // right
                 case 39 :
-                    //this.moveRight = false;
+                    this.moveRight = false;
                     break;
             }
         }

@@ -5,13 +5,9 @@ var app = (function () {
     var initRunGame = function (id) {
         var el = document.getElementById(id);
         var ctx = el.getContext('2d');
-
         var oStage = new run.Stage(ctx);
         var oGameController = new run.GameController(oStage);
 
-        oGameController.on('change:score', function(){
-            $('#_score').val(oGameController.getScore());
-        });
 
         oGameController.start();
 
@@ -21,6 +17,10 @@ var app = (function () {
     return {
 
         initUi : function(oGameController){
+            oGameController.on('change:score', function(){
+                $('#_score').val(oGameController.getScore());
+            });
+
             $('#_start_btn').on('click', function(){
                 oGameController.start();
             });

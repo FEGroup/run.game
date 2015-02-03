@@ -9,7 +9,7 @@ run.HeroModel = (function () {
             height: 0,
             currentFrame: 0,
             totalFrames: 0,
-            scale: 1,
+            scale: 2,
             xVel: 5,
             yVel: 0,
             isJumping: false,

@@ -11,6 +11,15 @@ run.Stage = (function () {
 
         initialize: function (ctx) {
             this.ctx = ctx;
+
+            this.initPixelHack();
+        },
+
+        initPixelHack : function(){
+            this.ctx.mozImageSmoothingEnabled = false;
+            this.ctx.webkitImageSmoothingEnabled = false;
+            this.ctx.msImageSmoothingEnabled = false;
+            this.ctx.imageSmoothingEnabled = false;
         },
 
         getContext: function () {
