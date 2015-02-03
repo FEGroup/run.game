@@ -5,7 +5,7 @@ run.ViewController = (function () {
 
         defaults: {},
 
-        initialize: function (ctx, model) {
+        initialize: function () {
 
         },
         update: function () {

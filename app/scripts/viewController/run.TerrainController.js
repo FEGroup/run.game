@@ -14,7 +14,7 @@ run.TerrainController = (function () {
         initialize: function (ctx, mc) {
             this.ctx = ctx;
             this.model = mc.getModel(mc.MODEL.TERRAIN);
-            this.mainModel = mc.getModel(mc.MODEL.MAIN);;
+            this.mainModel = mc.getModel(mc.MODEL.MAIN);
             this.typeObj = this.model.get('TYPE');
             this.maps = this.model.get('gMap');
             this._initSetting();
@@ -102,5 +102,6 @@ run.TerrainController = (function () {
                 i++;
             }
         }
-    })
+    });
+
 })();
