@@ -15,7 +15,7 @@ run.GameController = (function () {
 
         initialize: function (stage) {
             this.initStage(stage);
-            this.bindKeyEvents();
+            this._bindKeyEvents();
         },
 
         initStage : function(stage){
@@ -128,13 +128,13 @@ run.GameController = (function () {
             this.model.set('distance', nDistance + this.model.get('speed'));
         },
 
-        bindKeyEvents: function () {
+        _bindKeyEvents: function () {
             $(window)
-                .on('keydown', $.proxy(this.keyDownHandler, this))
-                .on('keyup', $.proxy(this.keyUpHandler, this));
+                .on('keydown', $.proxy(this._keyDownHandler, this))
+                .on('keyup', $.proxy(this._keyUpHandler, this));
         },
 
-        keyDownHandler: function (e) {
+        _keyDownHandler: function (e) {
             e.preventDefault();
 
             switch (e.keyCode) {
@@ -154,7 +154,7 @@ run.GameController = (function () {
             }
         },
 
-        keyUpHandler: function (e) {
+        _keyUpHandler: function (e) {
             switch (e.keyCode) {
                 case 37 :
                     //this.moveLeft = false;

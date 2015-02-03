@@ -13,6 +13,8 @@ var app = (function () {
             $('#_score').val(oGameController.getScore());
         });
 
+        oGameController.start();
+
         return oGameController;
     };
 
@@ -37,7 +39,11 @@ var app = (function () {
         initRunGame : function () {
             var oGameController = initRunGame('_stage');
             this.initUi(oGameController);
-            //initRunGame('_stage2');
+
+            initRunGame('_stage2');
+
+            initRunGame('_stage3');
+
         },
 
         start : function(){

@@ -22,6 +22,7 @@ run.TerrainModel = (function () {
 
 
         initialize: function () {
+            this.gMap = [];
         },
 
         removeTerrain: function(target) {
