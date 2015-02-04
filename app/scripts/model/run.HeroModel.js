@@ -12,7 +12,7 @@ run.HeroModel = (function () {
             scale: 2,
             xVel: 5,
             yVel: 0,
-            isJumping: false,
+            isDoubleJumping: false,
             mode: '',
             MODE: {
                 D_MODE: 'dead',

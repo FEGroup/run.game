@@ -8,7 +8,7 @@ run.Config = (function () {
             FPS : 25,
             GRAVITY : 8,
             INIT_JUMP_VELOCITY : -40,
-            TERRAIN_BOTTOM_Y: 300 - 40
+            TERRAIN_BOTTOM_Y: 300 - 33
         }
     });
 

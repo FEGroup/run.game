@@ -48,6 +48,8 @@ run.HeroController = (function () {
 
             if(mode === this.heroModel.MODE.D_MODE){
                 this.heroModel.trigger('deadEvent');
+            } else if (mode === this.heroModel.MODE.R_MODE) {
+                this.setValue('isDoubleJumping', false);
             }
         },
 
@@ -113,6 +115,7 @@ run.HeroController = (function () {
                         this.setPoint(null, terrain.y);
                         this.setValue('yVel', 0);
                         this.setMode(this.heroModel.MODE.R_MODE);
+
                         result = true;
                     }
                 }
@@ -171,10 +174,14 @@ run.HeroController = (function () {
         },
 
         jump: function () {
-            if (this.heroModel.get('mode') === this.heroModel.MODE.R_MODE) {
+            var mode = this.heroModel.get('mode');
+            if (mode === this.heroModel.MODE.R_MODE) {
                 this.setValue('currentFrame', 0);
                 this.setValue('yVel', run.Config.get('INIT_JUMP_VELOCITY'));
                 this.setMode(this.heroModel.MODE.J_MODE);
+            } else if (mode === this.heroModel.MODE.J_MODE && this.heroModel.get('isDoubleJumping') === false) {
+                this.setValue('isDoubleJumping', true);
+                this.setValue('yVel', run.Config.get('INIT_JUMP_VELOCITY'));
             }
         },
 
