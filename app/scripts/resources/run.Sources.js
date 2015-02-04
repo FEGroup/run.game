@@ -24,6 +24,11 @@ run.Sources = (function () {
 
         bottomTerrain: {
             img: 'img/bg2.png',
+            frames: {
+                bg: [
+                    [431, 373, 60, 33]
+                ]
+            },
 
             imageObj: null
         },

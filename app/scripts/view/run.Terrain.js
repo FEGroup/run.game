@@ -10,6 +10,8 @@ run.Terrain = (function () {
             height: 0,
             x: 0,
             y: 0,
+            imageX: 0,
+            imageY: 0,
             image: null
         },
 
@@ -27,8 +29,12 @@ run.Terrain = (function () {
             switch (type) {
                 case this.model.TYPE.BOTTOM:
                     this.image = run.Sources.bottomTerrain.imageObj;
-                    this.width = this.image.width;
-                    this.height = this.image.height;
+
+                    this.imageX = run.Sources.bottomTerrain.frames.bg[0][0];
+                    this.imageY = run.Sources.bottomTerrain.frames.bg[0][1];
+                    this.width = run.Sources.bottomTerrain.frames.bg[0][2];
+                    this.height = 60;
+
                     break;
                 case this.model.TYPE.SECOND:
 
@@ -48,35 +54,16 @@ run.Terrain = (function () {
             }
         },
 
-        createPattern : function(){
-            var elCanvas = document.createElement('canvas');
-            elCanvas.width = 25;
-            elCanvas.height = 40;
-
-            var patternCtx = elCanvas.getContext('2d');
-            patternCtx.drawImage(this.image , (-450), -370, 1081, 1445);
-            this.pattern = elCanvas;
-        },
-
         draw: function (ctx, x, y) {
             this.x = x;
             this.y = y;
-            if (this.image === null) {
-                return;
+            if (this.image) {
+                var rect = {x: this.x, y: this.y, w: this.width, h: this.height};
+
+                ctx.drawImage(this.image,
+                    this.imageX, this.imageY, this.width, this.height,
+                    rect.x, rect.y, rect.w, rect.h);
             }
-
-            if(!this.pattern){
-                this.createPattern();
-            }
-
-            ctx.fillStyle = ctx.createPattern(this.pattern, "repeat");
-
-            ctx.save();
-            ctx.translate(-x, -y);
-            ctx.fillRect(x * 2, y * 2, this.width, this.height);
-            ctx.translate(-x, -y);
-            ctx.restore();
         }
-
     });
 })();
