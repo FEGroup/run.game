@@ -21,7 +21,10 @@ run.TerrainController = (function () {
         },
 
         _initSetting: function () {
-            this.checkTerrain();
+            this.addTerrainGroup(run.Rules.TERRAIN_MAP_GROUP[0]);
+            this.addTerrainGroup(run.Rules.TERRAIN_MAP_GROUP[0]);
+            this.addTerrainGroup(run.Rules.TERRAIN_MAP_GROUP[0]);
+            this.addTerrainGroup(run.Rules.TERRAIN_MAP_GROUP[0]);
         },
 
         createTerrain: function (type) {
@@ -71,15 +74,17 @@ run.TerrainController = (function () {
          */
         checkTerrain: function () {
             if (this.model.get('endX') - this.mainModel.get('speed') <= run.Config.STAGE_WIDTH) {
-                var i = 0,
-                    availTerrainArr = run.Rules.AVAILABLE_TERRAINS[this.mainModel.get('level')],
-                    targetArr = run.Rules.TERRAIN_MAP_GROUP[Math.floor(Math.random() * availTerrainArr.length)];
-
-                while (i < targetArr.length) {
-                    this.model.addTerrain(this.createTerrain(targetArr[i]));
-                    i++;
-                }
+                var index = Math.floor(Math.random() * run.Rules.AVAILABLE_TERRAINS[this.mainModel.get('level')].length);
+                this.addTerrainGroup(run.Rules.TERRAIN_MAP_GROUP[run.Rules.AVAILABLE_TERRAINS[this.mainModel.get('level')][index]]);
                 this.checkTerrain();
+            }
+        },
+
+        addTerrainGroup: function(terrainGroup) {
+            var i = 0;
+            while (i < terrainGroup.length) {
+                this.model.addTerrain(this.createTerrain(terrainGroup[i]));
+                i++;
             }
         },
 

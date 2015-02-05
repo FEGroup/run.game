@@ -12,7 +12,10 @@ run.Terrain = (function () {
             y: 0,
             imageX: 0,
             imageY: 0,
-            image: null
+            currentFrame: 0,
+            totalFrames: -1,
+            image: null,
+            frameArr: null
         },
 
         /**
@@ -21,19 +24,23 @@ run.Terrain = (function () {
          * @param type  그라운드 타입(땅, 장애물, 낭떠러지)
          * @param id    id
          */
-        initialize: function (model, type, id) {
+        initialize: function (model, type, id, options) {
             this.model = model;
             this.id = id;
             this.type = type;
+            this.currentFrame = 0;
 
             switch (type) {
                 case this.model.TYPE.BOTTOM:
+                    /**
+                     * 레벨에 따라 해당 컨텐츠를 변경 할 수도 있음. bg가 아닌 bg1, bg2, bg3
+                     */
+                    this.frameArr = run.Sources.bottomTerrain.frames.bg;
+
+                    this.totalFrames = this.frameArr.length;
                     this.image = run.Sources.bottomTerrain.imageObj;
 
-                    this.imageX = run.Sources.bottomTerrain.frames.bg[0][0];
-                    this.imageY = run.Sources.bottomTerrain.frames.bg[0][1];
-                    this.width = run.Sources.bottomTerrain.frames.bg[0][2];
-                    this.height = 60;
+                    this.setImageRect();
 
                     break;
                 case this.model.TYPE.SECOND:
@@ -54,12 +61,28 @@ run.Terrain = (function () {
             }
         },
 
+        setImageRect: function() {
+            var imgArr = this.frameArr[this.currentFrame];
+            this.imageX = imgArr[0];
+            this.imageY = imgArr[1];
+            this.width = imgArr[2];
+            this.height = imgArr[3];
+        },
+
         draw: function (ctx, x, y) {
             this.x = x;
             this.y = y;
-            if (this.image) {
-                var rect = {x: this.x, y: this.y, w: this.width, h: this.height};
 
+            if (this.image) {
+                this.setImageRect();
+
+                this.currentFrame++;
+
+                if (this.currentFrame === this.totalFrames) {
+                    this.currentFrame = 0;
+                }
+                var rect = {x: this.x, y: this.y, w: this.width, h: this.height};
+                // pivot은 좌측 상단으로 한다.
                 ctx.drawImage(this.image,
                     this.imageX, this.imageY, this.width, this.height,
                     rect.x, rect.y, rect.w, rect.h);

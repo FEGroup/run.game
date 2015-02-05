@@ -13,7 +13,6 @@ run.TerrainModel = (function () {
             currentID: 0,
             startX: 0,
             endX: 0,
-            stageEndX: 0,
             Events: {
                 CHANGE: 'terrain_change',
                 REMOVE: 'terrain_remove'

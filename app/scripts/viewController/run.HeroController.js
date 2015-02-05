@@ -142,14 +142,15 @@ run.HeroController = (function () {
         },
 
         getCollisionTerrain: function(rect){
-            var i = 0, terrain = null, arr = [];
+            var i = 0, terrain = null, arr = [], prevRect = this.heroModel.prevRect;
             while (i < this.terrainMap.length) {
                 terrain = this.terrainMap[i].terrain;
                 if (terrain.type === this.terrainModel.TYPE.BOTTOM ||
                     terrain.type === this.terrainModel.TYPE.SECOND ||
                     terrain.type === this.terrainModel.TYPE.THIRD || terrain.type === this.terrainModel.TYPE.CLIFF) {
 
-                    if (rect.x >= terrain.x && rect.x < terrain.x + terrain.width && rect.y >= terrain.y && rect.y <= terrain.y + terrain.height) {
+                    if ((rect.x >= terrain.x && rect.x < terrain.x + terrain.width && rect.y >= terrain.y && rect.y <= terrain.y + terrain.height) ||
+                        this.AABB({x: prevRect.x, y: prevRect.y, width: 1, height: rect.y - prevRect.y}, terrain) === true) {
                         arr.push(terrain);
                     }
                 } else {
@@ -194,6 +195,7 @@ run.HeroController = (function () {
         },
 
         setPoint: function (lx, ly) {
+            this.heroModel.prevRect = {x:this.heroModel.get('x'), y:this.heroModel.get('y'), w:this.heroModel.get('width'), h:this.heroModel.get('height')};
             if (lx !== null) {
                 this.setValue('x', lx);
             }
@@ -201,6 +203,7 @@ run.HeroController = (function () {
             if (ly !== null) {
                 this.setValue('y', ly);
             }
+
         }
 
     });

@@ -4,6 +4,7 @@ run.ModelCollection = (function () {
         defaults: {
             MODEL: {
                 TERRAIN: 'terrain',
+                ITEM: 'item',
                 HERO: 'hero',
                 MAIN: 'main'
             }

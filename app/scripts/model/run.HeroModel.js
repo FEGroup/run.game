@@ -12,6 +12,7 @@ run.HeroModel = (function () {
             scale: 2,
             xVel: 5,
             yVel: 0,
+            prevRect: {x:0, y:0, w:0, h:0},
             isDoubleJumping: false,
             mode: '',
             MODE: {
