@@ -131,6 +131,10 @@ run.GameController = (function () {
         _bindKeyEvents: function () {
             $(window)
                 .on('keydown', $.proxy(this._keyDownHandler, this))
+                .on('touchstart', $.proxy(function(){
+
+                    this.oHeroControl.jump();
+                }, this))
                 .on('keyup', $.proxy(this._keyUpHandler, this));
         },
 
