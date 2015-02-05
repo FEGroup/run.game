@@ -18,7 +18,8 @@ run.HeroModel = (function () {
             MODE: {
                 D_MODE: 'dead',
                 R_MODE: 'run',
-                J_MODE: 'jump'
+                J_MODE: 'jump',
+                L_MODE: 'doubleJump'
             }
         },
 

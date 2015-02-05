@@ -67,6 +67,7 @@ run.HeroController = (function () {
                 candidateArr = this.getCollisionTerrain(rect);
 
             switch (this.heroModel.get('mode')) {
+                case this.heroModel.MODE.L_MODE:
                 case this.heroModel.MODE.J_MODE:
                     this.setValue('yVel', this.heroModel.get('yVel') + run.Config.get('GRAVITY'));
 
@@ -106,7 +107,7 @@ run.HeroController = (function () {
             while (i < terrainArr.length) {
                 terrain = terrainArr[i];
 
-                if (this.heroModel.get('mode') === this.heroModel.MODE.J_MODE && this.heroModel.get('yVel') >= 0) {
+                if ((this.heroModel.get('mode') === this.heroModel.MODE.J_MODE || this.heroModel.get('mode') === this.heroModel.MODE.L_MODE) && this.heroModel.get('yVel') >= 0) {
                     // 땅 위에 닿은건지 체크 y좌표 + height값 사이에 있다면 땅위에 착지
                     if (terrain.type === this.terrainModel.TYPE.BOTTOM ||
                         terrain.type === this.terrainModel.TYPE.SECOND ||
@@ -165,13 +166,10 @@ run.HeroController = (function () {
         },
 
         AABB: function(a, b) {
-            if (a.x < b.x + b.width &&
+            return (a.x < b.x + b.width &&
                 a.x + a.width > b.x &&
                 a.y < b.y + b.height &&
-                a.height + a.y > b.y) {
-                return true;
-            }
-            return false;
+                a.height + a.y > b.y);
         },
 
         jump: function () {
@@ -182,7 +180,9 @@ run.HeroController = (function () {
                 this.setMode(this.heroModel.MODE.J_MODE);
             } else if (mode === this.heroModel.MODE.J_MODE && this.heroModel.get('isDoubleJumping') === false) {
                 this.setValue('isDoubleJumping', true);
+                this.setValue('currentFrame', 0);
                 this.setValue('yVel', run.Config.get('INIT_JUMP_VELOCITY'));
+                this.setMode(this.heroModel.MODE.L_MODE);
             }
         },
 
