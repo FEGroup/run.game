@@ -49,5 +49,7 @@ var app = (function () {
         start : function(){
             run.PreLoader.load(this.initRunGame.bind(this));
         }
-    }
+    };
 })();
+
+app.start();

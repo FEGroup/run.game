@@ -18,6 +18,8 @@
   "freeze" : true,
   "globals" : {
     "run" : true,
-    "console" : true
+    "app" : true,
+    "console" : true,
+    "ClassUtil" : true
   }
 }
