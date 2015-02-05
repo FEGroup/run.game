@@ -38,7 +38,7 @@ run.Rules = (function(){
             ],
 
             ITEM_MAP_GROUP: [
-
+                [0, 1]
             ],
 
             SPEED_OF_LEVEL: [15, 18, 20, 25, 30, 40, 50]

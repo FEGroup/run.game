@@ -23,20 +23,35 @@ run.ItemController = (function () {
 
         checkItem: function () {
             if (this.model.get('endX') - this.mainModel.get('speed') <= run.Config.STAGE_WIDTH) {
-                this.addItemGroup(run.Rules.TERRAIN_MAP_GROUP[Math.floor(Math.random() * run.Rules.AVAILABLE_TERRAINS[this.mainModel.get('level')].length)]);
+                var candidArr = run.Rules.ITEM_MAP_GROUP[this.mainModel.get('level')];
+                this.addItemGroup(run.Rules.ITEMS_MAP[candidArr[Math.floor(Math.random() * candidArr.length)]]);
                 this.checkItem();
             }
         },
 
-        createItem: function(itemObj) {
+        createItem: function(itemY, kind) {
 
+            var obj;
+            if (kind === 0) {
+                obj = {x: this.model.get('endX') + run.Config.ITEM_INTERVAL_X, y: run.Config.TERRAIN_BOTTOM_Y - itemY - 20, item: new run.Item(run.Sources.item.imageObj, run.Sources.item.frames.normalCoin, this.model.get('currentID'))};
+
+                this.model.set('endX', this.model.get('endX') + run.Config.ITEM_INTERVAL_X);
+            } else {
+
+            }
+
+
+            return obj;
         },
 
         addItemGroup: function(itemGroup) {
-            var i = 0;
-
+            var i = 0, kind = 0;
+            /**
+             * 랜덤한 종류로 추가
+             *
+             */
             while (i < itemGroup.length) {
-                this.model.addItem(this.createItem(itemGroup[i]));
+                this.model.addItem(this.createItem(itemGroup[i], kind));
                 i++;
             }
         },
@@ -50,19 +65,16 @@ run.ItemController = (function () {
             while (i < this.maps.length) {
                 target = this.maps[i];
                 target.x -= speed;
-                if (target.x + target.terrain.width <= 0) {
+                if (target.x + target.item.width <= 0) {
                     this.model.removeItem(target);
                     continue;
                 }
 
                 target.item.draw(this.ctx, target.x, target.y);
 
-                if (i === this.maps.length - 1) {
-                    this.model.set('endX', target.x + target.width);
-                }
-
                 i++;
             }
+            this.model.set('endX', this.model.get('endX') - speed);
         }
     });
 

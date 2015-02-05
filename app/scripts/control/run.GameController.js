@@ -9,6 +9,7 @@ run.GameController = (function () {
             heroModel: null,
             oHeroControl: null,
             terrainControl: null,
+            itemControl: null,
             stage: null,
             oStackCollection: null
         },
@@ -33,9 +34,11 @@ run.GameController = (function () {
             this.modelCollection
                 .set('main', this.model)
                 .set('hero', this.heroModel)
-                .set('terrain', new run.TerrainModel());
+                .set('terrain', new run.TerrainModel())
+                .set('item', new run.ItemModel());
 
             this._initTerrain();
+            this._initItem();
             this._initHero();
             this.setModelEvents();
         },
@@ -87,6 +90,11 @@ run.GameController = (function () {
         _initTerrain: function () {
             this.terrainControl = new run.TerrainController(this.stage.getContext(), this.modelCollection);
             this.oStackCollection.add(this.terrainControl);
+        },
+
+        _initItem: function() {
+            this.itemControl = new run.ItemController(this.stage.getContext(), this.modelCollection);
+            this.oStackCollection.add(this.itemControl);
         },
 
         _initHero: function () {

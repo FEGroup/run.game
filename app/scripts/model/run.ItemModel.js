@@ -1,4 +1,4 @@
-run.TerrainModel = (function () {
+run.ItemModel = (function () {
 
     return run.Class.extend({
         defaults: {

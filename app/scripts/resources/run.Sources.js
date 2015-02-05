@@ -52,7 +52,7 @@ run.Sources = (function () {
             imageObj: null
         },
 
-        item1: {
+        item: {
             img: 'img/bg2.png',
             frames: {
                 normalCoin: [
