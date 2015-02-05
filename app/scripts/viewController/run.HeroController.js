@@ -136,7 +136,7 @@ run.HeroController = (function () {
                     break;
                 }
 
-                i++
+                i++;
             }
             return result;
         },

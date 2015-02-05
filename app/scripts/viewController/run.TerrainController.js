@@ -24,7 +24,7 @@ run.TerrainController = (function () {
             this.checkTerrain();
         },
 
-        createTerrain: function (type, option) {
+        createTerrain: function (type) {
             var terrain, mapObj, id = this.model.get('currentID');
 
             switch (type) {

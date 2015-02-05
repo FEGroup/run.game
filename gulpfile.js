@@ -113,7 +113,10 @@ gulp.task('watch', ['connect'], function () {
     '.tmp/styles/**/*.css',
     'app/scripts/**/*.js',
     'app/images/**/*'
-  ]).on('change', $.livereload.changed);
+  ]).on('change', function(){
+      $.livereload.changed();
+      gulp.start('jshint');
+  });
 
   gulp.watch('app/styles/**/*.scss', ['styles']);
   gulp.watch('bower.json', ['wiredep']);

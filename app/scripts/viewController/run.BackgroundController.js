@@ -14,7 +14,7 @@ run.BgController = (function () {
         initialize: function (ctx, mc) {
             this.ctx = ctx;
             this.model = mc.getModel(mc.MODEL.TERRAIN);
-            this.mainModel = mc.getModel(mc.MODEL.MAIN);;
+            this.mainModel = mc.getModel(mc.MODEL.MAIN);
             this.typeObj = this.model.get('TYPE');
             this.maps = this.model.get('gMap');
             this._initSetting();
@@ -24,7 +24,7 @@ run.BgController = (function () {
             this.checkTerrain();
         },
 
-        createTerrain: function (type, option) {
+        createTerrain: function (type) {
             var terrain, mapObj, id = this.model.get('currentID');
 
             switch (type) {
@@ -102,5 +102,5 @@ run.BgController = (function () {
                 i++;
             }
         }
-    })
+    });
 })();
