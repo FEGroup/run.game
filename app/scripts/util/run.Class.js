@@ -13,10 +13,10 @@ run.Class = (function () {
             }
         },
 
-        set : function(prop, val){
+        set: function (prop, val) {
             this[prop] = val;
 
-            this.trigger('change:'+prop);
+            this.trigger('change:' + prop);
             return this;
         },
 
@@ -53,7 +53,7 @@ run.Class = (function () {
             return this;
         },
 
-        trigger : function(type, obj){
+        trigger: function (type, obj) {
             this.dispatchEvent(new Event(type), obj);
         },
 

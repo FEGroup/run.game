@@ -4,10 +4,10 @@ run.HeroController = (function () {
     return run.ViewController.extend({
 
         defaults: {
-            hero: null,
+            ctx: null,
+            heroView: null,
             heroModel: null,
             terrainModel: null,
-            ctx: null,
             terrainMap: null,
             name: '',
             src: null
@@ -16,14 +16,15 @@ run.HeroController = (function () {
         /**
          * @constructor
          * @param ctx
-         * @param model
+         * @param modelCollection
          */
-        initialize: function (ctx, mc) {
-            this.heroModel = mc.getModel(mc.MODEL.HERO);
-            this.terrainModel = mc.getModel(mc.MODEL.TERRAIN);
-            this.terrainMap = this.terrainModel.get('gMap');
-            this.hero = new run.Hero(this.heroModel);
+        initialize: function (ctx, modelCollection) {
             this.ctx = ctx;
+
+            this.heroModel = modelCollection.getModel(modelCollection.MODEL.HERO);
+            this.terrainModel = modelCollection.getModel(modelCollection.MODEL.TERRAIN);
+            this.terrainMap = this.terrainModel.get('gMap');
+            this.heroView = new run.Hero(this.heroModel);
 
             this._initSetting();
         },
@@ -46,7 +47,7 @@ run.HeroController = (function () {
             this.setValue('mode', mode);
             this.setValue('totalFrames', this.src.frames[this.heroModel.get('mode')].length);
 
-            if(mode === this.heroModel.MODE.D_MODE){
+            if (mode === this.heroModel.MODE.D_MODE) {
                 this.heroModel.trigger('deadEvent');
             } else if (mode === this.heroModel.MODE.R_MODE) {
                 this.setValue('isDoubleJumping', false);
@@ -71,7 +72,7 @@ run.HeroController = (function () {
                 case this.heroModel.MODE.J_MODE:
                     this.setValue('yVel', this.heroModel.get('yVel') + run.Config.get('GRAVITY'));
 
-                    if (this.proceedCollision(candidateArr) === false) {
+                    if (this.isCollided(candidateArr) === false) {
                         this.setPoint(null, this.heroModel.get('y') + this.heroModel.get('yVel'));
                     }
 
@@ -81,7 +82,7 @@ run.HeroController = (function () {
                     break;
 
                 case this.heroModel.MODE.R_MODE:
-                    this.proceedCollision(candidateArr);
+                    this.isCollided(candidateArr);
                     break;
 
                 case this.heroModel.MODE.D_MODE:
@@ -91,13 +92,11 @@ run.HeroController = (function () {
 
             }
 
-
-            this.hero.draw(this.ctx, this.src);
-
+            this.heroView.draw(this.ctx, this.src);
             this.heroModel.nextFrame();
         },
 
-        proceedCollision: function(terrainArr) {
+        isCollided: function (terrainArr) {
             var i = 0, terrain, result = false;
 
             if (terrainArr === null) {
@@ -142,7 +141,7 @@ run.HeroController = (function () {
             return result;
         },
 
-        getCollisionTerrain: function(rect){
+        getCollisionTerrain: function (rect) {
             var i = 0, terrain = null, arr = [], prevRect = this.heroModel.prevRect;
             while (i < this.terrainMap.length) {
                 terrain = this.terrainMap[i].terrain;
@@ -151,11 +150,21 @@ run.HeroController = (function () {
                     terrain.type === this.terrainModel.TYPE.THIRD || terrain.type === this.terrainModel.TYPE.CLIFF) {
 
                     if ((rect.x >= terrain.x && rect.x < terrain.x + terrain.width && rect.y >= terrain.y && rect.y <= terrain.y + terrain.height) ||
-                        this.AABB({x: prevRect.x, y: prevRect.y, width: 1, height: rect.y - prevRect.y}, terrain) === true) {
+                        this.AABB({
+                            x: prevRect.x,
+                            y: prevRect.y,
+                            width: 1,
+                            height: rect.y - prevRect.y
+                        }, terrain) === true) {
                         arr.push(terrain);
                     }
                 } else {
-                    if (this.AABB({x: rect.x - rect.width / 2, y: rect.y - rect.height, width: rect.width, height: rect.height}, terrain) === true) {
+                    if (this.AABB({
+                            x: rect.x - rect.width / 2,
+                            y: rect.y - rect.height,
+                            width: rect.width,
+                            height: rect.height
+                        }, terrain) === true) {
                         arr.push(terrain);
                     }
                 }
@@ -165,11 +174,11 @@ run.HeroController = (function () {
             return arr;
         },
 
-        AABB: function(a, b) {
+        AABB: function (a, b) {
             return (a.x < b.x + b.width &&
-                a.x + a.width > b.x &&
-                a.y < b.y + b.height &&
-                a.height + a.y > b.y);
+            a.x + a.width > b.x &&
+            a.y < b.y + b.height &&
+            a.height + a.y > b.y);
         },
 
         jump: function () {
@@ -186,16 +195,21 @@ run.HeroController = (function () {
             }
         },
 
-        moveRight : function(){
+        moveRight: function () {
             this.setValue('x', this.heroModel.get('x') + this.heroModel.get('xVel'));
         },
 
-        moveLeft : function(){
+        moveLeft: function () {
             this.setValue('x', this.heroModel.get('x') - this.heroModel.get('xVel'));
         },
 
         setPoint: function (lx, ly) {
-            this.heroModel.prevRect = {x:this.heroModel.get('x'), y:this.heroModel.get('y'), w:this.heroModel.get('width'), h:this.heroModel.get('height')};
+            this.heroModel.prevRect = {
+                x: this.heroModel.get('x'),
+                y: this.heroModel.get('y'),
+                w: this.heroModel.get('width'),
+                h: this.heroModel.get('height')
+            };
             if (lx !== null) {
                 this.setValue('x', lx);
             }

@@ -24,7 +24,7 @@ run.Terrain = (function () {
          * @param type  그라운드 타입(땅, 장애물, 낭떠러지)
          * @param id    id
          */
-        initialize: function (model, type, id, options) {
+        initialize: function (model, type, id) {
             this.model = model;
             this.id = id;
             this.type = type;
