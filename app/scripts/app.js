@@ -8,7 +8,6 @@ var app = (function () {
         var oStage = new run.Stage(ctx);
         var oGameController = new run.GameController(oStage);
 
-
         oGameController.start();
 
         return oGameController;
