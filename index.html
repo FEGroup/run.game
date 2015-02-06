@@ -1,5 +1,6 @@
 <!doctype html> <html class=no-js> <head> <meta charset=utf-8> <meta name=description> <meta name=viewport content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"> <title>run game</title> <!--Place favicon.ico and apple-touch-icon.png in the root directory--> <!--build:css styles/main.css
  <link rel="stylesheet" href="styles/main.css">--> <!--endbuild--> <script src=scripts/vendor/modernizr.js></script> <style>
+          body { margin: 0; padding: 0;}
           canvas,
           img {
               image-rendering: crisp-edges;
@@ -10,7 +11,7 @@
           }
       </style> </head> <body> <!--[if lt IE 10]>
  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
- <![endif]--> <div class=container> <div class=header> </div> <div> <div> <input type=button id=_start_btn value=start> <input type=button id=_stop_btn value=stop> <input type=button id=_pause_btn value=pause> <input type=button id=_resume_btn value=resume> <input type=text id=_score> </div> <canvas id=_stage width=600 height=300 style="border:1px solid #b4cefd;width:600px;height:300px;" tabindex=0></canvas> <div> <canvas id=_stage2 width=600 height=300 style="border:1px solid #b4cefd;width:300px;height:150px;" tabindex=0></canvas> <canvas id=_stage3 width=600 height=300 style="border:1px solid #b4cefd;width:300px;height:150px;" tabindex=0></canvas> </div> </div> <div class=footer> </div> </div> <!--Google Analytics: change UA-XXXXX-X to be your site's ID.--> <script>
+ <![endif]--> <div class=container> <div class=header> </div> <div> <div> <input type=button id=_start_btn value=start> <input type=button id=_stop_btn value=stop> <input type=button id=_pause_btn value=pause> <input type=button id=_resume_btn value=resume> <input type=text id=_score> </div> <canvas id=_stage width=300 height=300 style="border:1px solid #b4cefd;width:300px;height:300px;" tabindex=0></canvas> <div> <canvas id=_stage2 width=600 height=300 style="border:1px solid #b4cefd;width:300px;height:150px;" tabindex=0></canvas> <canvas id=_stage3 width=600 height=300 style="border:1px solid #b4cefd;width:300px;height:150px;" tabindex=0></canvas> </div> </div> <div class=footer> </div> </div> <!--Google Analytics: change UA-XXXXX-X to be your site's ID.--> <script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
       function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
       e=o.createElement(i);r=o.getElementsByTagName(i)[0];
