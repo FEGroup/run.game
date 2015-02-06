@@ -36,7 +36,9 @@ run.ItemController = (function () {
                 obj = {
                     x: this.model.get('endX') + run.Config.ITEM_INTERVAL_X,
                     y: run.Config.TERRAIN_BOTTOM_Y - itemY - 20,
-                    item: new run.Item(run.Sources.item.imageObj, run.Sources.item.frames.normalCoin, this.model.get('currentID'))
+                    id: this.model.get('currentID'),
+                    kind: kind,
+                    item: new run.Item(run.Sources.item.imageObj, run.Sources.item.frames.normalCoin)
                 };
 
                 this.model.set('endX', this.model.get('endX') + run.Config.ITEM_INTERVAL_X);
@@ -51,8 +53,7 @@ run.ItemController = (function () {
         addItemGroup: function (itemGroup) {
             var i = 0, kind = 0;
             /**
-             * 랜덤한 종류로 추가
-             *
+             * 랜덤한 종류로 추가 필요
              */
             while (i < itemGroup.length) {
                 this.model.addItem(this.createItem(itemGroup[i], kind));
@@ -80,5 +81,4 @@ run.ItemController = (function () {
             this.model.set('endX', this.model.get('endX') - speed);
         }
     });
-
 })();

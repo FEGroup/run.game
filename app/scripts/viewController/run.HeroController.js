@@ -5,8 +5,11 @@ run.HeroController = (function () {
 
         defaults: {
             ctx: null,
+            mainModel: null,
             heroView: null,
             heroModel: null,
+            itemModel: null,
+            itemMap:null,
             terrainModel: null,
             terrainMap: null,
             name: '',
@@ -21,8 +24,11 @@ run.HeroController = (function () {
         initialize: function (ctx, modelCollection) {
             this.ctx = ctx;
 
+            this.mainModel = modelCollection.getModel(modelCollection.MODEL.MAIN);
             this.heroModel = modelCollection.getModel(modelCollection.MODEL.HERO);
             this.terrainModel = modelCollection.getModel(modelCollection.MODEL.TERRAIN);
+            this.itemModel = modelCollection.getModel(modelCollection.MODEL.ITEM);
+            this.itemMap = this.itemModel.get('itemList');
             this.terrainMap = this.terrainModel.get('gMap');
             this.heroView = new run.Hero(this.heroModel);
 
@@ -65,14 +71,15 @@ run.HeroController = (function () {
                     width: this.heroModel.get('width') * this.heroModel.get('scale'),
                     height: this.heroModel.get('height') * this.heroModel.get('scale')
                 },
-                candidateArr = this.getCollisionTerrain(rect);
+                candiTerrainArr = this.getCollisionTerrain(rect),
+                candiItemArr = this.getCollisionItem(rect);
 
             switch (this.heroModel.get('mode')) {
                 case this.heroModel.MODE.L_MODE:
                 case this.heroModel.MODE.J_MODE:
                     this.setValue('yVel', this.heroModel.get('yVel') + run.Config.get('GRAVITY'));
 
-                    if (this.isCollided(candidateArr) === false) {
+                    if (this.isCollided(candiTerrainArr) === false) {
                         this.setPoint(null, this.heroModel.get('y') + this.heroModel.get('yVel'));
                     }
 
@@ -82,7 +89,7 @@ run.HeroController = (function () {
                     break;
 
                 case this.heroModel.MODE.R_MODE:
-                    this.isCollided(candidateArr);
+                    this.isCollided(candiTerrainArr);
                     break;
 
                 case this.heroModel.MODE.D_MODE:
@@ -91,9 +98,17 @@ run.HeroController = (function () {
                 default:
 
             }
-
+            this.getItem(candiItemArr);
             this.heroView.draw(this.ctx, this.src);
             this.heroModel.nextFrame();
+        },
+
+        getItem: function(arr) {
+            var that = this;
+            arr.forEach(function(val, index, arr) {
+                that.mainModel.addItemScore(val.kind);
+                that.itemModel.removeItem(val);
+            });
         },
 
         isCollided: function (terrainArr) {
@@ -137,6 +152,24 @@ run.HeroController = (function () {
                 i++;
             }
             return result;
+        },
+
+        getCollisionItem: function(rect) {
+            var i = 0, item = null, arr = [];
+            while (i < this.itemMap.length) {
+                item = this.itemMap[i].item;
+
+                if (this.AABB({
+                        x: rect.x - rect.width / 2,
+                        y: rect.y - rect.height,
+                        width: rect.width,
+                        height: rect.height
+                    }, item) === true) {
+                    arr.push(this.itemMap[i]);
+                }
+                i++;
+            }
+            return arr;
         },
 
         getCollisionTerrain: function (rect) {

@@ -4,7 +4,6 @@ run.Item = (function () {
     return run.View.extend({
         defaults: {
             model: null,
-            id: -1,
             type: -1,
             width: 0,
             height: 0,
@@ -18,8 +17,7 @@ run.Item = (function () {
             frameArr: null
         },
 
-        initialize: function (src, frames, id) {
-            this.id = id;
+        initialize: function (src, frames) {
             this.src = src;
             this.frames = frames;
             this.currentFrame = 0;
