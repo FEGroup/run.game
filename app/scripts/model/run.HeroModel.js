@@ -29,6 +29,7 @@ run.HeroModel = (function () {
 
         nextFrame: function () {
             this.currentFrame++;
+
             if (this.currentFrame >= this.totalFrames) {
                 this.currentFrame = 0;
             }

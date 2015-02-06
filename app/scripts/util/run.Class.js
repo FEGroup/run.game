@@ -1,7 +1,6 @@
 run.Class = (function () {
     'use strict';
 
-
     // Default Function for run.Game
     return ClassUtil.extend({
         // Defaults Methods
