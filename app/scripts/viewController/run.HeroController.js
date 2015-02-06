@@ -32,7 +32,6 @@ run.HeroController = (function () {
         _initSetting: function () {
             this.name = 'hero';
             this.src = run.Sources[this.name];
-            this.setValue('currentFrame', 0);
             this.setPoint(100, -50);
             this.setValue('width', run.Sources.hero.width);
             this.setValue('height', run.Sources.hero.height);
@@ -46,6 +45,7 @@ run.HeroController = (function () {
         setMode: function (mode) {
             this.setValue('mode', mode);
             this.setValue('totalFrames', this.src.frames[this.heroModel.get('mode')].length);
+            this.initFrame();
 
             if (mode === this.heroModel.MODE.D_MODE) {
                 this.heroModel.trigger('deadEvent');
@@ -123,14 +123,12 @@ run.HeroController = (function () {
                 // 장애물에 부딪혔는지 체크 - TRAP이면 무조건 사망, R_MODE에서 CLIFF면 사망
                 if (terrain.type === this.terrainModel.TYPE.TRAP) {
                     this.setValue('yVel', 3);
-                    this.setValue('currentFrame', 0);
                     this.setMode(this.heroModel.MODE.D_MODE);
                     result = true;
                     break;
                 }
                 if (this.heroModel.get('mode') === this.heroModel.MODE.R_MODE && terrain.type === this.terrainModel.TYPE.CLIFF) {
                     this.setValue('yVel', 3);
-                    this.setValue('currentFrame', 0);
                     this.setMode(this.heroModel.MODE.J_MODE);
                     result = true;
                     break;
@@ -184,12 +182,10 @@ run.HeroController = (function () {
         jump: function () {
             var mode = this.heroModel.get('mode');
             if (mode === this.heroModel.MODE.R_MODE) {
-                this.setValue('currentFrame', 0);
                 this.setValue('yVel', run.Config.get('INIT_JUMP_VELOCITY'));
                 this.setMode(this.heroModel.MODE.J_MODE);
             } else if (mode === this.heroModel.MODE.J_MODE && this.heroModel.get('isDoubleJumping') === false) {
                 this.setValue('isDoubleJumping', true);
-                this.setValue('currentFrame', 0);
                 this.setValue('yVel', run.Config.get('INIT_JUMP_VELOCITY'));
                 this.setMode(this.heroModel.MODE.L_MODE);
             }
