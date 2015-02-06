@@ -15,34 +15,35 @@ var app = (function () {
 
     return {
 
-        initUi : function(oGameController){
-            oGameController.on('change:score', function(){
+        initUi: function (oGameController) {
+            oGameController.on('change:score', function () {
                 $('#_score').val(oGameController.getScore());
             });
 
-            $('#_start_btn').on('click', function(){
+            $('#_start_btn').on('click', function () {
                 oGameController.start();
             });
-            $('#_stop_btn').on('click', function(){
+            $('#_stop_btn').on('click', function () {
                 oGameController.stop();
             });
 
-            $('#_pause_btn').on('click', function(){
+            $('#_pause_btn').on('click', function () {
                 oGameController.pause();
             });
-            $('#_resume_btn').on('click', function(){
+            $('#_resume_btn').on('click', function () {
                 oGameController.resume();
             });
         },
 
-        initRunGame : function () {
+        initRunGame: function () {
             var oGameController = initRunGame('_stage');
             this.initUi(oGameController);
+
             initRunGame('_stage2');
             initRunGame('_stage3');
         },
 
-        start : function(){
+        start: function () {
             run.PreLoader.load(this.initRunGame.bind(this));
         }
     };
