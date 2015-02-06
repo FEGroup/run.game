@@ -60,7 +60,6 @@ run.ItemController = (function () {
             }
         },
 
-
         update: function () {
             var i = 0, target, speed = this.mainModel.get('speed');
 
