@@ -3,6 +3,7 @@
 // generated on 2015-01-14 using generator-gulp-webapp 0.2.0
 var gulp = require('gulp');
 var open = require('gulp-open');
+var deploy = require('gulp-gh-pages');
 var $ = require('gulp-load-plugins')();
 
 gulp.task('styles', function () {
@@ -136,4 +137,10 @@ gulp.task('build', [ 'html', 'images', 'fonts', 'extras'], function () {
 
 gulp.task('default', ['clean'], function () {
   gulp.start('build');
+});
+
+
+gulp.task('deploy', ['build'], function () {
+    return gulp.src('./dist/**/*')
+        .pipe(deploy());
 });
