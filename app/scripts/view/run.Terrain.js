@@ -56,7 +56,12 @@ run.Terrain = (function () {
 
                     break;
                 case this.model.TYPE.TRAP:
+                    this.frameArr = run.Sources.trap.frames.trap1;
 
+                    this.totalFrames = this.frameArr.length;
+                    this.image = run.Sources.trap.imageObj;
+
+                    this.setImageRect();
                     break;
             }
         },

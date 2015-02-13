@@ -137,7 +137,7 @@ run.HeroController = (function () {
 
                 // 장애물에 부딪혔는지 체크 - TRAP이면 무조건 사망, R_MODE에서 CLIFF면 사망
                 if (terrain.type === this.terrainModel.TYPE.TRAP) {
-                    this.setValue('yVel', 3);
+                    //this.setValue('yVel', 3);
                     this.setMode(this.heroModel.MODE.D_MODE);
                     result = true;
                     break;
@@ -173,10 +173,11 @@ run.HeroController = (function () {
         },
 
         getCollisionTerrain: function (rect) {
-            var i = 0, terrain = null, arr = [], prevRect = this.heroModel.prevRect;
+            var i = 0, terrain = null, arr = [], prevRect = this.heroModel.prevRect, trapMap = this.terrainModel.get('trapMap'), trap;
             while (i < this.terrainMap.length) {
                 terrain = this.terrainMap[i].terrain;
-                if (terrain.type === this.terrainModel.TYPE.BOTTOM ||
+
+                if ((terrain.type === this.terrainModel.TYPE.BOTTOM && trapMap[i] === null) ||
                     terrain.type === this.terrainModel.TYPE.SECOND ||
                     terrain.type === this.terrainModel.TYPE.THIRD || terrain.type === this.terrainModel.TYPE.CLIFF) {
 
@@ -187,17 +188,32 @@ run.HeroController = (function () {
                             width: 1,
                             height: rect.y - prevRect.y
                         }, terrain) === true) {
-                        arr.push(terrain);
+                            arr.push(terrain);
+
                     }
                 } else {
-                    if (this.AABB({
-                            x: rect.x - rect.width / 2,
-                            y: rect.y - rect.height,
-                            width: rect.width,
-                            height: rect.height
-                        }, terrain) === true) {
-                        arr.push(terrain);
+                    if (trapMap[i] !== null) {
+                        trap = trapMap[i].terrain;
+                        if (this.AABB({
+                                x: rect.x - rect.width / 2,
+                                y: rect.y - rect.height,
+                                width: rect.width,
+                                height: rect.height
+                            }, trap) === true) {
+                            arr.push(trap);
+                        }
+                    } else {
+                        if (this.AABB({
+                                x: rect.x - rect.width / 2,
+                                y: rect.y - rect.height,
+                                width: rect.width,
+                                height: rect.height
+                            }, terrain) === true) {
+                            arr.push(terrain);
+                        }
                     }
+
+
                 }
 
                 i++;

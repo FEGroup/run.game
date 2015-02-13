@@ -62,7 +62,14 @@ run.TerrainController = (function () {
                     this.model.set('endX', this.model.get('endX') + terrain.width);
                     break;
                 case this.typeObj.TRAP:
+                    terrain = new run.Terrain(this.model, type, id);
 
+                    mapObj = {
+                        terrain: terrain,
+                        id: id,
+                        x: this.model.get('endX'),
+                        y: run.Config.TERRAIN_BOTTOM_Y - terrain.height
+                    };
                     break;
             }
 
@@ -81,15 +88,23 @@ run.TerrainController = (function () {
         },
 
         addTerrainGroup: function(terrainGroup) {
-            var i = 0;
+
+            var i = 0, terrainType;
             while (i < terrainGroup.length) {
-                this.model.addTerrain(this.createTerrain(terrainGroup[i]));
+                terrainType = terrainGroup[i];
+                if (terrainType === this.model.TYPE.TRAP) {
+                    this.model.addTrap(this.createTerrain(terrainType));
+                    this.model.addTerrain(this.createTerrain(this.model.TYPE.BOTTOM));
+                } else {
+                    this.model.addTrap(null);
+                    this.model.addTerrain(this.createTerrain(terrainType));
+                }
                 i++;
             }
         },
 
         update: function () {
-            var i = 0, target, speed = this.mainModel.get('speed');
+            var i = 0, target, trap, speed = this.mainModel.get('speed'), trapMap = this.model.get('trapMap');
 
             this.checkTerrain();
 
@@ -98,12 +113,20 @@ run.TerrainController = (function () {
 
             while (i < this.maps.length) {
                 target = this.maps[i];
+                trap = trapMap[i];
                 target.x -= speed;
+                if (trap !== null) {
+                    trap.x -= speed;
+                }
                 if (target.x + target.terrain.width <= 0) {
                     this.model.removeTerrain(target);
                     continue;
                 }
                 target.terrain.draw(this.ctx, target.x, target.y);
+                if (trap !== null) {
+                    trap.terrain.draw(this.ctx, trap.x, trap.y);
+                }
+
                 i++;
             }
         }

@@ -10,6 +10,7 @@ run.TerrainModel = (function () {
                 TRAP: 4
             },
             gMap: [],
+            trapMap: [],
             currentID: 0,
             startX: 0,
             endX: 0,
@@ -22,13 +23,17 @@ run.TerrainModel = (function () {
 
         initialize: function () {
             this.gMap = [];
+            this.trapMap = [];
         },
 
         removeTerrain: function(target) {
             if (target === null) {
                 return;
             }
-            this.gMap.splice(this.gMap.indexOf(target), 1);
+            var index = this.gMap.indexOf(target);
+            this.gMap.splice(index, 1);
+            this.trapMap.splice(index, 1);
+
             this.dispatchEvent(new Event(this.Events.REMOVE));
         },
 
@@ -38,8 +43,14 @@ run.TerrainModel = (function () {
             }
             this.currentID++;
             this.gMap.push(obj);
+
             this.dispatchEvent(new Event(this.Events.CHANGE));
+        },
+
+        addTrap: function(obj) {
+            this.trapMap.push(obj);
         }
+
     });
 
 })();
