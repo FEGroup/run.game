@@ -10,6 +10,7 @@ run.Terrain = (function () {
             height: 0,
             x: 0,
             y: 0,
+            scale: 1,
             imageX: 0,
             imageY: 0,
             currentFrame: 0,
@@ -24,12 +25,14 @@ run.Terrain = (function () {
          * @param type  그라운드 타입(땅, 장애물, 낭떠러지)
          * @param id    id
          */
-        initialize: function (model, type, id) {
+        initialize: function (model, type, id, scale) {
             this.model = model;
             this.id = id;
             this.type = type;
             this.currentFrame = 0;
-
+            if (scale) {
+                this.scale = scale;
+            }
             switch (type) {
                 case this.model.TYPE.BOTTOM:
                     /**
@@ -70,8 +73,8 @@ run.Terrain = (function () {
             var imgArr = this.frameArr[this.currentFrame];
             this.imageX = imgArr[0];
             this.imageY = imgArr[1];
-            this.width = imgArr[2];
-            this.height = imgArr[3];
+            this.width = imgArr[2] * this.scale;
+            this.height = imgArr[3] * this.scale;
         },
 
         draw: function (ctx, x, y) {
@@ -86,10 +89,11 @@ run.Terrain = (function () {
                 if (this.currentFrame === this.totalFrames) {
                     this.currentFrame = 0;
                 }
+
                 var rect = {x: this.x, y: this.y, w: this.width, h: this.height};
                 // pivot은 좌측 상단으로 한다.
                 ctx.drawImage(this.image,
-                    this.imageX, this.imageY, this.width, this.height,
+                    this.imageX, this.imageY, this.width / this.scale, this.height / this.scale,
                     rect.x, rect.y, rect.w, rect.h);
             }
         }

@@ -62,7 +62,7 @@ run.TerrainController = (function () {
                     this.model.set('endX', this.model.get('endX') + terrain.width);
                     break;
                 case this.typeObj.TRAP:
-                    terrain = new run.Terrain(this.model, type, id);
+                    terrain = new run.Terrain(this.model, type, id, 2);
 
                     mapObj = {
                         terrain: terrain,
